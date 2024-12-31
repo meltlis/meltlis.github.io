@@ -4,6 +4,27 @@
   
   
   <entry>
+    <title>博客上线</title>
+    <link href="/2024/12/31/%E5%8D%9A%E5%AE%A2%E4%B8%8A%E7%BA%BF/"/>
+    <url>/2024/12/31/%E5%8D%9A%E5%AE%A2%E4%B8%8A%E7%BA%BF/</url>
+    
+    <content type="html"><![CDATA[<h1 id="博客上线"><a href="#博客上线" class="headerlink" title="博客上线"></a>博客上线</h1><p>meltlis搭建的博客已经悄悄上线了！现已挂载在GitHub上。<br>总之在2025年以前能够在互联网上看到这篇文章了！<br>目前这里什么都没有。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>记录</category>
+      
+      <category>网站</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>test_my_site</title>
     <link href="/2024/12/29/test-my-site/"/>
     <url>/2024/12/29/test-my-site/</url>
@@ -42,7 +63,7 @@
     <link href="/2023/01/30/first-post/"/>
     <url>/2023/01/30/first-post/</url>
     
-    <content type="html"><![CDATA[<h1 id="标题1"><a href="#标题1" class="headerlink" title="标题1"></a>标题1</h1><ul><li>没有顺序</li><li>有吗</li><li>没有吧</li></ul><ol><li>这是第一步</li><li>这是第二步</li><li>这是第三步</li></ol><h2 id="标题2"><a href="#标题2" class="headerlink" title="标题2"></a>标题2</h2><ul><li><input disabled="" type="checkbox"> 本地搭建博客</li><li><input disabled="" type="checkbox"> 完善博客</li><li><input checked="" disabled="" type="checkbox"> 上线博客</li></ul><hr><p><em>斜体</em> <strong>加粗</strong> <u>下划线</u></p><p><a href="#%E6%A0%87%E9%A2%981" title="跳转标题1">回到标题1</a></p><hr><table><thead><tr><th align="left">1</th><th align="left">2</th><th align="center">3</th></tr></thead><tbody><tr><td align="left">3</td><td align="left">3</td><td align="center">3</td></tr></tbody></table><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    cout&lt;&lt;<span class="hljs-string">&quot;hello world!&quot;</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125; <br></code></pre></td></tr></table></figure><h3 id="标题3"><a href="#标题3" class="headerlink" title="标题3"></a>标题3</h3><blockquote><p>这是一段引用</p></blockquote>]]></content>
+    <content type="html"><![CDATA[<h1 id="标题1"><a href="#标题1" class="headerlink" title="标题1"></a>标题1</h1><ul><li>有顺序</li><li>有吗</li><li>没有吧</li></ul><ol><li>这是第一步</li><li>这是第二步</li><li>这是第三步</li></ol><h2 id="标题2"><a href="#标题2" class="headerlink" title="标题2"></a>标题2</h2><ul><li><input disabled="" type="checkbox"> 本地搭建博客</li><li><input disabled="" type="checkbox"> 完善博客 </li><li><input checked="" disabled="" type="checkbox"> 上线博客</li></ul><hr><p><em>斜体</em> <strong>加粗</strong> <u>下划线</u></p><p><a href="#%E6%A0%87%E9%A2%981" title="跳转标题1">回到标题1</a></p><hr><table><thead><tr><th align="left">1</th><th align="left">2</th><th align="center">3</th></tr></thead><tbody><tr><td align="left">3</td><td align="left">3</td><td align="center">3</td></tr></tbody></table><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    cout&lt;&lt;<span class="hljs-string">&quot;hello world!&quot;</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125; <br></code></pre></td></tr></table></figure><h3 id="标题3"><a href="#标题3" class="headerlink" title="标题3"></a>标题3</h3><blockquote><p>这是一段引用</p></blockquote>]]></content>
     
     
     <categories>
