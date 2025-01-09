@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+  
+  <entry>
+    <title>博客更新</title>
+    <link href="/2025/01/08/%E5%8D%9A%E5%AE%A2%E6%9B%B4%E6%96%B0%202025.1.8/"/>
+    <url>/2025/01/08/%E5%8D%9A%E5%AE%A2%E6%9B%B4%E6%96%B0%202025.1.8/</url>
+    
+    <content type="html"><![CDATA[<p>在忙了一段时间后，花了一下午捣鼓了blog。</p><span id="more"></span><h3 id="页面头图更换"><a href="#页面头图更换" class="headerlink" title="页面头图更换"></a>页面头图更换</h3><p>将页面头图换成了暗喻幻想中的旅途画卷。在游玩的时候就感觉印象深刻，这个地方atlus做的还是非常好的，非常的好看。</p><h3 id="评论功能的实现"><a href="#评论功能的实现" class="headerlink" title="评论功能的实现"></a>评论功能的实现</h3><p>在折腾了快两个小时gitalk无果之后选择了<a href="https://github.com/apps/utterances">Utterances</a>。<br>安装Utterances app后，在GitHub端配置选择Repository的用户名和仓库名称（blog的仓库，例如我的是 meltlis&#x2F;meltlis.github.io），之后依次是issues与posts的映射关系还有评论的issues的label，全部默认就行。最后就是选择喜好的Theme。<br>最后在本地_config.yml对照配置就完成了。记得将comments enable并选择Utterances。<br>配置如下:</p><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs dts"><span class="hljs-symbol">utterances:</span><br><span class="hljs-symbol">  repo:</span> (YourUserName/YourRepositoryName)<br><span class="hljs-symbol">  issue_term:</span> pathname<br><span class="hljs-symbol">  label:</span> utterances<br><span class="hljs-symbol">  theme:</span> github-light<br><span class="hljs-symbol">  theme_dark:</span> github-dark<br></code></pre></td></tr></table></figure><h3 id="未来可能的友联"><a href="#未来可能的友联" class="headerlink" title="未来可能的友联"></a>未来可能的友联</h3><p>依照Fluid文档完成了折跃门部分，可以找博客主索要或者互加友联。</p><h3 id="关于页完善"><a href="#关于页完善" class="headerlink" title="关于页完善"></a>关于页完善</h3><p>依照Fluid文档完成了关于页的简介。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>记录</category>
+      
+      <category>网站</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>每日一题2025-1-1</title>
+    <link href="/2025/01/01/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%202025.1.1/"/>
+    <url>/2025/01/01/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%202025.1.1/</url>
+    
+    <content type="html"><![CDATA[<p>新年第一题，难度简单，虽然不知道二进制的库函数但手搓秒了。  </p><span id="more"></span><p><a href="https://leetcode.cn/problems/convert-date-to-binary/description/" title="跳转至题目">3280.将日期转换为二进制表示</a></p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function">string <span class="hljs-title">convertDateToBinary</span><span class="hljs-params">(string date)</span> </span>&#123;<br>        string return_date, temp;<br>        <span class="hljs-type">int</span> i = <span class="hljs-number">0</span>, num, len = date.<span class="hljs-built_in">size</span>();<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; <span class="hljs-number">3</span>; j++)&#123;<br>            num = <span class="hljs-number">0</span>;<br>            <span class="hljs-keyword">while</span> (i &lt; len &amp;&amp; date[i] != <span class="hljs-string">&#x27;-&#x27;</span>)&#123;<br>                num = num * <span class="hljs-number">10</span> + (date[i]-<span class="hljs-string">&#x27;0&#x27;</span>);<br>                ++i;<br>            &#125;<br>            <span class="hljs-keyword">while</span>(num &gt; <span class="hljs-number">0</span>)&#123;<br>                temp += (num % <span class="hljs-number">2</span> + <span class="hljs-string">&#x27;0&#x27;</span>);<br>                num /= <span class="hljs-number">2</span>;<br>            &#125;   <br>            <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> k = temp.<span class="hljs-built_in">size</span>()<span class="hljs-number">-1</span>; k &gt;=<span class="hljs-number">0</span>; k--)&#123;<br>                return_date += temp[k];<br>            &#125;<br>            temp = <span class="hljs-string">&quot;&quot;</span>;<br>            <span class="hljs-keyword">if</span> (j != <span class="hljs-number">2</span>)&#123;<br>                return_date += <span class="hljs-string">&#x27;-&#x27;</span>;<br>            &#125;<br>            i++;<br>        &#125;<br>        <span class="hljs-keyword">return</span> return_date;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure><p><img src="/image/lc20250101.png" alt="图片" title="结果"></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>算法题</category>
+      
+      <category>leetcode</category>
+      
+      <category>简单</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>博客上线</title>
+    <link href="/2024/12/31/%E5%8D%9A%E5%AE%A2%E4%B8%8A%E7%BA%BF/"/>
+    <url>/2024/12/31/%E5%8D%9A%E5%AE%A2%E4%B8%8A%E7%BA%BF/</url>
+    
+    <content type="html"><![CDATA[<p>meltlis搭建的博客已经悄悄上线了！现已挂载在GitHub上。  </p><span id="more"></span><p>总之在2025年以前能够在互联网上看到这篇文章了！<br>目前这里什么都没有。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>记录</category>
+      
+      <category>网站</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>C++ STL unordered,个人理解总结</title>
+    <link href="/2024/01/30/Cpp%E5%AE%B9%E5%99%A8/"/>
+    <url>/2024/01/30/Cpp%E5%AE%B9%E5%99%A8/</url>
+    
+    <content type="html"><![CDATA[<p>很早以前写的。  </p><span id="more"></span><h2 id="1-unordered-set-amp-unoderded-map"><a href="#1-unordered-set-amp-unoderded-map" class="headerlink" title="1.unordered_set &amp; unoderded_map"></a>1.unordered_set &amp; unoderded_map</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-built_in">unordered_set</span>(<span class="hljs-built_in">int</span>(hashvalue))hashname<br></code></pre></td></tr></table></figure><p>仅存储value不存储key(&#x3D;0or1)。</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-built_in">unordered_map</span>(<span class="hljs-built_in">int</span>(hashkey),<span class="hljs-built_in">int</span>(hashvalue))hashname<br></code></pre></td></tr></table></figure><p>存储value与key</p><h4 id="使用例-力扣第2670题"><a href="#使用例-力扣第2670题" class="headerlink" title="使用例 力扣第2670题"></a>使用例 力扣第2670题</h4><blockquote><p>给你一个下标从 0 开始的数组 nums ，数组长度为 n 。<br>nums 的 不同元素数目差 数组可以用一个长度为 n 的数组 diff 表示，其中 diff[i] 等于前缀 nums[0, …, i] 中不同元素的数目 减去 后缀 nums[i + 1, …, n - 1] 中不同元素的数目。<br>返回 nums 的 不同元素数目差 数组。<br>注意 nums[i, …, j] 表示 nums 的一个从下标 i 开始到下标 j 结束的子数组（包含下标 i 和 j 对应元素）。特别需要说明的是，如果 i &gt; j ，则 nums[i, …, j] 表示一个空子数组。</p></blockquote><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">distinctDifferenceArray</span><span class="hljs-params">(vector&lt;<span class="hljs-type">int</span>&gt;&amp; nums)</span> </span>&#123;<br>    <span class="hljs-type">int</span> i, j, len = nums.<span class="hljs-built_in">size</span>(), a =<span class="hljs-number">0</span>;<br>    unordered_map&lt;<span class="hljs-type">int</span>,<span class="hljs-type">int</span>&gt; nums1;<br>    unordered_map&lt;<span class="hljs-type">int</span>,<span class="hljs-type">int</span>&gt; nums2;<br>    <span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">ans</span><span class="hljs-params">(len)</span></span>;<br>    <span class="hljs-keyword">for</span>(i = <span class="hljs-number">0</span>; i &lt; len; i++)&#123;<br>        <span class="hljs-keyword">if</span>(!nums2[nums[i]])&#123;<br>            nums2[nums[i]]++;<br>            a--;<br>        &#125;<br>        <span class="hljs-keyword">else</span> nums2[nums[i]]++;<br>    &#125;<br>    <span class="hljs-keyword">for</span>(i = <span class="hljs-number">0</span>; i &lt; len; i++)&#123;<br>        <span class="hljs-keyword">if</span>(nums2[nums[i]])&#123;<br>            nums2[nums[i]]--;<br>            <span class="hljs-keyword">if</span>(!nums2[nums[i]])a++;<br>        &#125;<br>        <span class="hljs-keyword">if</span>(!nums1[nums[i]])&#123;<br>            a++;<br>            nums1[nums[i]]++;<br>        &#125;<br>        ans[i] = a;<br>    &#125;<br>    <span class="hljs-keyword">return</span> ans;<br>&#125;<br></code></pre></td></tr></table></figure><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">distinctDifferenceArray</span><span class="hljs-params">(vector&lt;<span class="hljs-type">int</span>&gt;&amp; nums)</span> </span>&#123;<br>    <span class="hljs-type">int</span> i, j, len = nums.<span class="hljs-built_in">size</span>(), a = <span class="hljs-number">0</span>;<br>    unordered_set&lt;<span class="hljs-type">int</span>&gt; num;<br>    <span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">ans</span><span class="hljs-params">(len,<span class="hljs-number">0</span>)</span></span>;<br>    <span class="hljs-keyword">for</span>(i = len <span class="hljs-number">-1</span>; i &gt; <span class="hljs-number">0</span>; --i)&#123;<br>        num.<span class="hljs-built_in">insert</span>(nums[i]);<br>        ans[i - <span class="hljs-number">1</span>] -= num.<span class="hljs-built_in">size</span>();<br>    &#125;<br>    num.<span class="hljs-built_in">clear</span>();<br>    <span class="hljs-keyword">for</span>(i = <span class="hljs-number">0</span>; i &lt; len; i++)&#123;<br>        num.<span class="hljs-built_in">insert</span>(nums[i]);<br>        ans[i] += num.<span class="hljs-built_in">size</span>();<br>    &#125;<br>    <span class="hljs-keyword">return</span> ans;<br>&#125;<br></code></pre></td></tr></table></figure><h2 id="2-operator-与-at-方法的区别"><a href="#2-operator-与-at-方法的区别" class="headerlink" title="2.operator()与.at()方法的区别"></a>2.operator()与.at()方法的区别</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++">cout&lt;&lt;hashname[hashkey]&lt;&lt;<span class="hljs-string">&quot; &quot;</span>&lt;&lt;hashname.<span class="hljs-built_in">at</span>(hashkey);<br></code></pre></td></tr></table></figure><p>都用于输出输出hash对应key的值。区别在于当key不存在时，at()会抛出了超出范围的异常，而operator []会用默认值进行初始化，例<code>hashname.at(noexisthashkey); //error hashname[noexisthashkey];</code> 创建一个值为默认值0，键为noexisthashkey的对</p><h2 id="3-auto-amp-a-b-：n与auto-amp-n-pair"><a href="#3-auto-amp-a-b-：n与auto-amp-n-pair" class="headerlink" title="3.auto&amp;[a, b]：n与auto&amp; n:pair"></a>3.auto&amp;[a, b]：n与auto&amp; n:pair</h2><p><code>for(auto&amp;[a, b]:n)</code>与<code>for(auto&amp; n:pair)</code>均为遍历键对。<br>前者a为键，b为键值。而后者通过n.first访问键，n.second访问键值</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>学习</category>
+      
+      <category>C++</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  
+</search>
