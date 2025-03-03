@@ -16,15 +16,15 @@
   <meta name="author" content="meltlis">
   <meta name="keywords" content="">
   
-    <meta name="description" content="很早以前写的。">
+    <meta name="description" content="总感觉在哪里做过, 但就是做不出来。鏖战了2小时才写出来。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C++ STL unordered,个人理解总结">
-<meta property="og:url" content="http://example.com/2024/01/30/Cpp%E5%AE%B9%E5%99%A8/index.html">
+<meta property="og:title" content="2025.4.2">
+<meta property="og:url" content="http://example.com/2025/03/04/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%202025.4.2/index.html">
 <meta property="og:site_name" content="Metlis的小窝">
-<meta property="og:description" content="很早以前写的。">
+<meta property="og:description" content="总感觉在哪里做过, 但就是做不出来。鏖战了2小时才写出来。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-01-30T12:16:57.000Z">
-<meta property="article:modified_time" content="2025-03-03T17:19:09.129Z">
+<meta property="article:published_time" content="2025-03-04T00:39:01.000Z">
+<meta property="article:modified_time" content="2025-03-03T17:19:09.130Z">
 <meta property="article:author" content="meltlis">
 <meta name="twitter:card" content="summary_large_image">
   
@@ -32,7 +32,7 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>C++ STL unordered,个人理解总结 - Metlis的小窝</title>
+  <title>2025.4.2 - Metlis的小窝</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -186,7 +186,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="C++ STL unordered,个人理解总结"></span>
+            <span id="subtitle" data-typed-text="2025.4.2"></span>
           
         </div>
 
@@ -197,8 +197,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-01-30 12:16" pubdate>
-          2024年1月30日 中午
+        <time datetime="2025-03-04 00:39" pubdate>
+          2025年3月4日 凌晨
         </time>
       </span>
     
@@ -209,7 +209,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          497 字
+          804 字
         
       </span>
     
@@ -220,7 +220,7 @@
         
         
         
-          5 分钟
+          7 分钟
         
       </span>
     
@@ -265,7 +265,7 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">C++ STL unordered,个人理解总结</h1>
+            <h1 id="seo-header">2025.4.2</h1>
             
               <p id="updated-time" class="note note-info" style="">
                 
@@ -278,22 +278,31 @@
             
               <div class="markdown-body">
                 
-                <p>很早以前写的。  </p>
-<span id="more"></span>
-<h2 id="1-unordered-set-amp-unoderded-map"><a href="#1-unordered-set-amp-unoderded-map" class="headerlink" title="1.unordered_set &amp; unoderded_map"></a>1.unordered_set &amp; unoderded_map</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-built_in">unordered_set</span>(<span class="hljs-built_in">int</span>(hashvalue))hashname<br></code></pre></td></tr></table></figure>
-<p>仅存储value不存储key(&#x3D;0or1)。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-built_in">unordered_map</span>(<span class="hljs-built_in">int</span>(hashkey),<span class="hljs-built_in">int</span>(hashvalue))hashname<br></code></pre></td></tr></table></figure>
-<p>存储value与key</p>
-<h4 id="使用例-力扣第2670题"><a href="#使用例-力扣第2670题" class="headerlink" title="使用例 力扣第2670题"></a>使用例 力扣第2670题</h4><blockquote>
-<p>给你一个下标从 0 开始的数组 nums ，数组长度为 n 。<br>nums 的 不同元素数目差 数组可以用一个长度为 n 的数组 diff 表示，其中 diff[i] 等于前缀 nums[0, …, i] 中不同元素的数目 减去 后缀 nums[i + 1, …, n - 1] 中不同元素的数目。<br>返回 nums 的 不同元素数目差 数组。<br>注意 nums[i, …, j] 表示 nums 的一个从下标 i 开始到下标 j 结束的子数组（包含下标 i 和 j 对应元素）。特别需要说明的是，如果 i &gt; j ，则 nums[i, …, j] 表示一个空子数组。</p>
-</blockquote>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">distinctDifferenceArray</span><span class="hljs-params">(vector&lt;<span class="hljs-type">int</span>&gt;&amp; nums)</span> </span>&#123;<br>    <span class="hljs-type">int</span> i, j, len = nums.<span class="hljs-built_in">size</span>(), a =<span class="hljs-number">0</span>;<br>    unordered_map&lt;<span class="hljs-type">int</span>,<span class="hljs-type">int</span>&gt; nums1;<br>    unordered_map&lt;<span class="hljs-type">int</span>,<span class="hljs-type">int</span>&gt; nums2;<br>    <span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">ans</span><span class="hljs-params">(len)</span></span>;<br>    <span class="hljs-keyword">for</span>(i = <span class="hljs-number">0</span>; i &lt; len; i++)&#123;<br>        <span class="hljs-keyword">if</span>(!nums2[nums[i]])&#123;<br>            nums2[nums[i]]++;<br>            a--;<br>        &#125;<br>        <span class="hljs-keyword">else</span> nums2[nums[i]]++;<br>    &#125;<br>    <span class="hljs-keyword">for</span>(i = <span class="hljs-number">0</span>; i &lt; len; i++)&#123;<br>        <span class="hljs-keyword">if</span>(nums2[nums[i]])&#123;<br>            nums2[nums[i]]--;<br>            <span class="hljs-keyword">if</span>(!nums2[nums[i]])a++;<br>        &#125;<br>        <span class="hljs-keyword">if</span>(!nums1[nums[i]])&#123;<br>            a++;<br>            nums1[nums[i]]++;<br>        &#125;<br>        ans[i] = a;<br>    &#125;<br>    <span class="hljs-keyword">return</span> ans;<br>&#125;<br></code></pre></td></tr></table></figure>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">distinctDifferenceArray</span><span class="hljs-params">(vector&lt;<span class="hljs-type">int</span>&gt;&amp; nums)</span> </span>&#123;<br>    <span class="hljs-type">int</span> i, j, len = nums.<span class="hljs-built_in">size</span>(), a = <span class="hljs-number">0</span>;<br>    unordered_set&lt;<span class="hljs-type">int</span>&gt; num;<br>    <span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">ans</span><span class="hljs-params">(len,<span class="hljs-number">0</span>)</span></span>;<br>    <span class="hljs-keyword">for</span>(i = len <span class="hljs-number">-1</span>; i &gt; <span class="hljs-number">0</span>; --i)&#123;<br>        num.<span class="hljs-built_in">insert</span>(nums[i]);<br>        ans[i - <span class="hljs-number">1</span>] -= num.<span class="hljs-built_in">size</span>();<br>    &#125;<br>    num.<span class="hljs-built_in">clear</span>();<br>    <span class="hljs-keyword">for</span>(i = <span class="hljs-number">0</span>; i &lt; len; i++)&#123;<br>        num.<span class="hljs-built_in">insert</span>(nums[i]);<br>        ans[i] += num.<span class="hljs-built_in">size</span>();<br>    &#125;<br>    <span class="hljs-keyword">return</span> ans;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h2 id="2-operator-与-at-方法的区别"><a href="#2-operator-与-at-方法的区别" class="headerlink" title="2.operator()与.at()方法的区别"></a>2.operator()与.at()方法的区别</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++">cout&lt;&lt;hashname[hashkey]&lt;&lt;<span class="hljs-string">&quot; &quot;</span>&lt;&lt;hashname.<span class="hljs-built_in">at</span>(hashkey);<br></code></pre></td></tr></table></figure>
-<p>都用于输出输出hash对应key的值。区别在于当key不存在时，at()会抛出了超出范围的异常，而operator []会用默认值进行初始化，例<code>hashname.at(noexisthashkey); //error hashname[noexisthashkey];</code> 创建一个值为默认值0，键为noexisthashkey的对</p>
-<h2 id="3-auto-amp-a-b-：n与auto-amp-n-pair"><a href="#3-auto-amp-a-b-：n与auto-amp-n-pair" class="headerlink" title="3.auto&amp;[a, b]：n与auto&amp; n:pair"></a>3.auto&amp;[a, b]：n与auto&amp; n:pair</h2><p><code>for(auto&amp;[a, b]:n)</code>与<code>for(auto&amp; n:pair)</code>均为遍历键对。<br>前者a为键，b为键值。而后者通过n.first访问键，n.second访问键值</p>
-
+                <h2 id="总感觉在哪里做过-但就是做不出来。鏖战了2小时才写出来。1278-分割回文串-III"><a href="#总感觉在哪里做过-但就是做不出来。鏖战了2小时才写出来。1278-分割回文串-III" class="headerlink" title="总感觉在哪里做过, 但就是做不出来。鏖战了2小时才写出来。1278. 分割回文串 III"></a>总感觉在哪里做过, 但就是做不出来。鏖战了2小时才写出来。<br><span id="more"></span><br>1278. 分割回文串 III</h2><p>给你一个由小写字母组成的字符串 <code>s</code>，和一个整数 <code>k</code>。</p>
+<p>请你按下面的要求分割字符串：</p>
+<ul>
+<li>首先，你可以将 <code>s</code> 中的部分字符修改为其他的小写英文字母。</li>
+<li>接着，你需要把 <code>s</code> 分割成 <code>k</code> 个非空且不相交的子串，并且每个子串都是回文串。</li>
+</ul>
+<p>请返回以这种方式分割字符串所需修改的最少字符数。</p>
+<p><strong>示例 1：</strong></p>
+<p><strong>输入：</strong> s &#x3D; “abc”, k &#x3D; 2<br><strong>输出：</strong> 1<br><strong>解释：</strong> 你可以把字符串分割成 “ab” 和 “c”，并修改 “ab” 中的 1 个字符，将它变成回文串。</p>
+<p><strong>示例 2：</strong></p>
+<p><strong>输入：</strong> s &#x3D; “aabbc”, k &#x3D; 3<br><strong>输出：</strong> 0<br><strong>解释：</strong> 你可以把字符串分割成 “aa”、”bb” 和 “c”，它们都是回文串。</p>
+<p><strong>示例 3：</strong></p>
+<p><strong>输入：</strong> s &#x3D; “leetcode”, k &#x3D; 8<br><strong>输出：</strong> 0</p>
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>1 &lt;= k &lt;= s.length &lt;= 100</code></li>
+<li><code>s</code> 中只含有小写英文字母。</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/palindrome-partitioning-iii/solutions/">https://leetcode.cn/problems/palindrome-partitioning-iii/solutions/</a></p>
+<p>回文数的动态规划应该算是比较经典的情况了。想出状态转移方程也应该不会太难。<br>很显然, 有字符串长度和分割字串数目这两个参数。然后再寻找两个参数和状态之间的关系。可以发现, <strong>如果将长度为i字符串分割j块, 其实也就相当于前i-l个字符组成的字符串分割成j-1块, 再加上后l个字符组成的字符串组合</strong>。<br>已经分割好的字符串需要改变的字母数量是很好得出的(虽然我在这里因为少加了个前边界卡了1个小时),<strong>于是, 只要把前i-l个字符组成的字符串分割j-1块后需要修改的字母数加上后l个字符组成的字符串组合需要修改的字母数加上, 就是总共需要修改的字母数。</strong><br>再选取所有分割方式中需要修改字母数最少的情况,于是得到状态转移方程:</p>
+<figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs inform7">dp<span class="hljs-comment">[i]</span><span class="hljs-comment">[j]</span> = min(dp<span class="hljs-comment">[i]</span><span class="hljs-comment">[j]</span>, dp<span class="hljs-comment">[i - l]</span><span class="hljs-comment">[j - 1]</span> + f(i-l,i));<br></code></pre></td></tr></table></figure>
+<p>为方便传递参数, 后面的程序中写成了</p>
+<figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs inform7">dp<span class="hljs-comment">[i]</span><span class="hljs-comment">[j]</span> = min(dp<span class="hljs-comment">[m]</span><span class="hljs-comment">[j - 1]</span> + f(s, m, i - 1), dp<span class="hljs-comment">[i]</span><span class="hljs-comment">[j]</span>);<br></code></pre></td></tr></table></figure>
+<p>其中, f(i-l,i)是字符串i - l到i需要修改的字符数量。这个只需要统计前半的字符串与后半的字符串倒序有几个字符不同就好了。<br>最后就是边界条件。当j &#x3D; 1时, 显然dp[i][1]就等于f(0,i), i - l &gt;&#x3D; j - 1。<br>题解:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">f</span><span class="hljs-params">(string s, <span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b)</span></span>&#123;<br>        <span class="hljs-type">int</span> i, n = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span>(i = a; i &lt;= (a + b)/<span class="hljs-number">2</span>; i++)&#123;<br>            <span class="hljs-keyword">if</span>(s[i] != s[b - i + a])n++;<br>        &#125;<br>        <span class="hljs-keyword">return</span> n;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">palindromePartition</span><span class="hljs-params">(string s, <span class="hljs-type">int</span> k)</span> </span>&#123;<br>        <span class="hljs-type">int</span> n = s.<span class="hljs-built_in">size</span>(), i, j, m;<br>        vector&lt;vector&lt;<span class="hljs-type">int</span>&gt;&gt; <span class="hljs-built_in">dp</span>(n + <span class="hljs-number">1</span>, <span class="hljs-built_in">vector</span>&lt;<span class="hljs-type">int</span>&gt;(k + <span class="hljs-number">1</span>, INT_MAX));<br>        dp[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span>(i = <span class="hljs-number">1</span>; i &lt;= n; i++)&#123;<br>            <span class="hljs-keyword">for</span>(j = <span class="hljs-number">1</span>; j &lt;= <span class="hljs-built_in">min</span>(i, k); j++)&#123;<br>                <span class="hljs-keyword">if</span>(j == <span class="hljs-number">1</span>)&#123;<br>                    dp[i][j] = <span class="hljs-built_in">f</span>(s, <span class="hljs-number">0</span>, i - <span class="hljs-number">1</span>);<br>                &#125;<br>                <span class="hljs-keyword">else</span><br>                    <span class="hljs-keyword">for</span>(m = j - <span class="hljs-number">1</span>; m &lt; i; m++)&#123;<br>                        dp[i][j] = <span class="hljs-built_in">min</span>(dp[m][j - <span class="hljs-number">1</span>] + <span class="hljs-built_in">f</span>(s, m, i - <span class="hljs-number">1</span>), dp[i][j]);<br>                    &#125;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> dp[n][k];<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
                 
               </div>
             
@@ -311,13 +320,27 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E5%AD%A6%E4%B9%A0/" class="category-chain-item">学习</a>
+  <a href="/categories/%E7%AE%97%E6%B3%95%E9%A2%98/" class="category-chain-item">算法题</a>
   
   
     <span>></span>
     
-  <a href="/categories/%E5%AD%A6%E4%B9%A0/C/" class="category-chain-item">C++</a>
+  <a href="/categories/%E7%AE%97%E6%B3%95%E9%A2%98/leetcode/" class="category-chain-item">leetcode</a>
   
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AE%97%E6%B3%95%E9%A2%98/leetcode/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" class="category-chain-item">动态规划</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AE%97%E6%B3%95%E9%A2%98/leetcode/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/%E5%9B%B0%E9%9A%BE/" class="category-chain-item">困难</a>
+  
+  
+
+  
+
   
 
   
@@ -338,8 +361,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>C++ STL unordered,个人理解总结</div>
-      <div>http://example.com/2024/01/30/Cpp容器/</div>
+      <div>2025.4.2</div>
+      <div>http://example.com/2025/03/04/每日一题 2025.4.2/</div>
     </div>
     <div class="license-meta">
       
@@ -351,7 +374,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年1月30日</div>
+          <div>2025年3月4日</div>
         </div>
       
       
@@ -383,15 +406,15 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/12/31/%E5%8D%9A%E5%AE%A2%E4%B8%8A%E7%BA%BF/" title="博客上线">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">博客上线</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2025/02/09/c++primer%E7%AC%AC%E5%9B%9B%E7%AB%A0%E7%AC%94%E8%AE%B0/" title="c++primer第四章笔记">
+                        <span class="hidden-mobile">c++primer第四章笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>

@@ -28,7 +28,7 @@
 <meta property="og:image" content="http://example.com/image/vector1.png">
 <meta property="og:image" content="http://example.com/image/ddq1.png">
 <meta property="article:published_time" content="2025-01-20T19:59:38.000Z">
-<meta property="article:modified_time" content="2025-02-12T11:35:01.380Z">
+<meta property="article:modified_time" content="2025-03-03T17:19:09.130Z">
 <meta property="article:author" content="meltlis">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/image/string1.png">
@@ -275,7 +275,7 @@
               <p id="updated-time" class="note note-info" style="">
                 
                   
-                    本文最后更新于 2025年2月12日 中午
+                    本文最后更新于 2025年3月3日 下午
                   
                 
               </p>
@@ -295,6 +295,8 @@
 <h2 id="string对象的操作"><a href="#string对象的操作" class="headerlink" title="string对象的操作"></a>string对象的操作</h2><p><img src="/image/string1.png" srcset="/img/loading.gif" lazyload alt="图片" title="string对象的操作"></p>
 <p>string的size函数返回的是一个string::size_type类型的值。其是一个无符号类型的值且足够存放下任何string对象的大小。因为string::size_type返回的是一个无符号类型的值,所以用其与有符号类型的值比较的时候要注意转换,比如s.size() &lt; n,当n为小于0的int类型时,结果会为true,因为n会转换成一个较大的无符号类型数。</p>
 <p>string在比较中遵循:1.长度不同，若较短的string对象每个字符与更长的对象上对应位置上的字符位置相同则较短对象小于较长对象。2.如果对象在对应位置上的字符不一致,则string对象比较的结果为第一个不同字符比较的结果。3.大小写敏感。</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs abnf">string a<span class="hljs-comment">;</span><br>unsigned b <span class="hljs-operator">=</span> sizeof(a)<span class="hljs-comment">;//b(string对象的大小)恒定为32, 在不同编译器中也可能是40</span><br></code></pre></td></tr></table></figure>
+
 <p><img src="/image/cctype1.png" srcset="/img/loading.gif" lazyload alt="图片" title="cctype头文件中的函数"></p>
 <h1 id="基于范围的for语句"><a href="#基于范围的for语句" class="headerlink" title="基于范围的for语句"></a>基于范围的for语句</h1><p>C++11新标准提供范围for语句:</p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-keyword">for</span>(declaration:expression)<br><span class="hljs-regexp">//</span>expression:对象,表示一个序列 <br><span class="hljs-regexp">//</span>declaration:负责定义一个变量用于访问序列中的基础元素,<br><span class="hljs-regexp">//</span>会初始化为expression部分的下一个元素值。<br>    statement<br></code></pre></td></tr></table></figure>

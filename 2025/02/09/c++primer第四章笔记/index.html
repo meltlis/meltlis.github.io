@@ -24,8 +24,9 @@
 <meta property="og:description" content="用于个人学习笔记使用,可能会存在许多错误与模糊的地方。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/image/bitys1.png">
+<meta property="og:image" content="http://example.com/image/stderror1.png">
 <meta property="article:published_time" content="2025-02-09T12:02:40.000Z">
-<meta property="article:modified_time" content="2025-02-12T11:35:01.380Z">
+<meta property="article:modified_time" content="2025-03-03T17:19:09.130Z">
 <meta property="article:author" content="meltlis">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/image/bitys1.png">
@@ -211,7 +212,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.1k 字
+          3.2k 字
         
       </span>
     
@@ -222,7 +223,7 @@
         
         
         
-          18 分钟
+          27 分钟
         
       </span>
     
@@ -272,7 +273,7 @@
               <p id="updated-time" class="note note-info" style="">
                 
                   
-                    本文最后更新于 2025年2月12日 中午
+                    本文最后更新于 2025年3月3日 下午
                   
                 
               </p>
@@ -319,6 +320,27 @@
 <figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-type">const</span> <span class="hljs-type">char</span> *pc;<br><span class="hljs-type">char</span> *p = <span class="hljs-built_in">const_cast</span>&lt;<span class="hljs-type">char</span>*&gt;(pc);<br></code></pre></td></tr></table></figure>
 <p>reinterpret_cast通常为运算对象的位模式提供较低层次上的重新解释。<br>旧式的强制类型转换:<br><em>type(expr);</em><br><em>(type) expr;</em><br>如果换成static_cast合法,则与static_cast用法一致。<br>否则与reinterpret_cast一致。</p>
 <figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-type">char</span> *pc = (<span class="hljs-type">char</span>*) ip;<span class="hljs-comment">//ip为指向整数的指针。与reinterpret_cast一致。</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="语句"><a href="#语句" class="headerlink" title="语句"></a>语句</h1><h2 id="goto语句"><a href="#goto语句" class="headerlink" title="goto语句"></a>goto语句</h2><p>goto语句可以无条件跳转到同一函数的另一条语句。</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-keyword">goto</span> lable;<br>end: <span class="hljs-keyword">return</span>;<span class="hljs-comment">//lable语句</span><br></code></pre></td></tr></table></figure>
+<h2 id="throw表达式"><a href="#throw表达式" class="headerlink" title="throw表达式"></a>throw表达式</h2><p>异常检测部分使用throw表达式来表达它遇到了无法处理的问题, throw引发了异常。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs kotlin">cerr &lt;&lt; <span class="hljs-string">&quot;Data must refer to same ISBN&quot;</span> &lt;&lt; endl;<br><span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;<span class="hljs-comment">//输出错误信息表示失败</span><br><span class="hljs-keyword">throw</span> runtime_error(<span class="hljs-string">&quot;Data must refer tp &quot;</span>);<span class="hljs-comment">//会直接扔出一个异常</span><br></code></pre></td></tr></table></figure>
+<p>类型runtime_error是一种标准库异常类型。</p>
+<h2 id="try语句块"><a href="#try语句块" class="headerlink" title="try语句块"></a>try语句块</h2><p>try语句块的一开始是关键字try, 随后紧跟着一个块, 这个块一般是用花括号括起来的语句序列。</p>
+<figure class="highlight wren"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs wren"><span class="hljs-title function_">try</span>&#123;<br>    <span class="hljs-variable">program</span><span class="hljs-operator">-</span><span class="hljs-variable">statements</span><br>&#125;<span class="hljs-title function_">catch</span>(<span class="hljs-params">exception</span>-<span class="hljs-params">declaration</span>)&#123;<br>    <span class="hljs-variable">handler</span><span class="hljs-operator">-</span><span class="hljs-variable">statements</span><br>&#125;<span class="hljs-title function_">catch</span>(<span class="hljs-params">exception</span>-<span class="hljs-params">declaration</span>)&#123;<br>    <span class="hljs-variable">handler</span><span class="hljs-operator">-</span><span class="hljs-variable">statements</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>跟在try块后面的是一个或者多个catch字句。catch字句包括关键字catch、括号内的异常声明以及一个块。当选中catch字句处理异常后, 执行与之对应的块。<br>例如</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-built_in">while</span>(cin &gt;&gt; item1 &gt;&gt; item2)&#123;<br>    try&#123;<br>        <span class="hljs-comment">//尝试添加两个sales_item对象, 添加失败会抛出runtime_error异常</span><br>    &#125;<span class="hljs-built_in">catch</span>(runtime_error)&#123;<br>        <span class="hljs-comment">//提示用户错误</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="标准异常"><a href="#标准异常" class="headerlink" title="标准异常"></a>标准异常</h2><p>C++标准库定义了一组类, 用于报告标准库函数中遇到的问题。这些异常类也可以用在用户编写的程序中使用, 它们分别定义在4个头文件中。<br>exception头文件定义了最通用的异常类exception。它只报告异常的发生, 不提供额外信息。<br>stdexcept提供了以下的常用异常类。<br><img src="/image/stderror1.png" srcset="/img/loading.gif" lazyload alt="图片" title="stdexcept提供的常用类"><br>new头文件定义了bad_alloc异常类型。<br>type_info头文件定义了bad_cast异常类型。</p>
+<h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><p>典型的函数定义包含以下部分: 返回类型、函数名、由0个或多个形参组成的列表以及函数体。形参由逗号隔开, 形参的列表位于圆括号内。</p>
+<h2 id="形参和实参"><a href="#形参和实参" class="headerlink" title="形参和实参"></a>形参和实参</h2><p>实参是形参的初始值, 实参和形参的初始化顺序是对应的, 但没有规定实参的求值顺序, 编译器可以以任意可行的顺序对实参求值。<br>实参与形参的类型也应当是匹配的。函数的调用规定实参数与形参数量一致, 所以形参一定会被初始化。</p>
+<p>函数的形参列表可以为空, 但是不可以省略。为了与C语言兼容, 也可以用关键字void表示函数没有形参。形参列表的形参用逗号隔开。<br>void类型的函数不返回任何值。</p>
+<h2 id="局部对象"><a href="#局部对象" class="headerlink" title="局部对象"></a>局部对象</h2><p>在C++中, 名字有作用域, 对象有生命周期。形参和函数体内部定义的变量统称为局部变量, 它们仅在函数的作用域内可见。<br>普通局部变量对应的对象, 当函数的控制路径经过变量定义语句时创建该对象, 到达定义所在块的末尾时销毁它。这种仅存在于块执行期间的对象为自动对象。<br>当块的实行结束后, 块中创建的自动对象就变成未定义的了。形参就是一种自动对象, 函数开始时为形参申请存储空间, 函数一旦终止, 形参就销毁了。<br>可以将局部变量定义成static类型获得局部静态对象。局部静态对象在程序执行路径第一次经过对象定义时初始化, 直到程序终止时才销毁, 在此期间对象所在的函数结束执行也不会有任何影响。</p>
+<p>练习6.7</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-built_in">int</span> <span class="hljs-title">num</span>()</span>&#123;<br>    <span class="hljs-keyword">static</span> <span class="hljs-built_in">int</span> n = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">return</span> n++;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="函数声明"><a href="#函数声明" class="headerlink" title="函数声明"></a>函数声明</h2><p>函数的名字在使用前需要声明, 函数只能定义一次, 但是可以声明多次。如果一个函数永远不会被用到, 那么它也可以只有声明没有定义。函数的声明和函数的定义非常类似, 区别在函数声明不需要函数体, 用一个分号替代就可以。<br>最好在头文件中进行函数声明, 在源文件中定义。</p>
+<h2 id="分离式编译"><a href="#分离式编译" class="headerlink" title="分离式编译"></a>分离式编译</h2><p>分离式编译允许C++把程序分割到几个文件中, 每个文件独立编译。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs stylus"><span class="hljs-comment">//add.h,add.cpp,main.cpp</span><br>g++ -c add<span class="hljs-selector-class">.cpp</span> -o add.o<span class="hljs-comment">//编译add.cpp,-c只编译,不连接。-o指定输出文件main.cpp。windows下为.obj</span><br>g++ -c <span class="hljs-selector-tag">main</span><span class="hljs-selector-class">.cpp</span> -o <span class="hljs-selector-tag">main</span>.o<span class="hljs-comment">//编译main.cpp</span><br>g++ add<span class="hljs-selector-class">.o</span> <span class="hljs-selector-tag">main</span><span class="hljs-selector-class">.o</span> -o main<span class="hljs-comment">//连接add和main -o指定最终输出可执行文件main</span><br></code></pre></td></tr></table></figure>
+
 
                 
               </div>
@@ -408,6 +430,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2025/03/04/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%202025.4.2/" title="2025.4.2">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">2025.4.2</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
