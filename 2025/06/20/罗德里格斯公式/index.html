@@ -16,23 +16,28 @@
   <meta name="author" content="meltlis">
   <meta name="keywords" content="">
   
-    <meta name="description" content="很早以前写的。">
+    <meta name="description" content="本文主旨是便于理解公式的大致原理和使用过程，其中数学推导可能有诸多不严谨的地方，希望多多包涵以及批评指正">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C++ STL unordered,个人理解总结">
-<meta property="og:url" content="http://example.com/2024/01/30/Cpp%E5%AE%B9%E5%99%A8/index.html">
+<meta property="og:title" content="罗德里格斯公式">
+<meta property="og:url" content="http://example.com/2025/06/20/%E7%BD%97%E5%BE%B7%E9%87%8C%E6%A0%BC%E6%96%AF%E5%85%AC%E5%BC%8F/index.html">
 <meta property="og:site_name" content="Metlis的小窝">
-<meta property="og:description" content="很早以前写的。">
+<meta property="og:description" content="本文主旨是便于理解公式的大致原理和使用过程，其中数学推导可能有诸多不严谨的地方，希望多多包涵以及批评指正">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-01-30T12:16:57.000Z">
-<meta property="article:modified_time" content="2025-06-20T13:54:38.770Z">
+<meta property="og:image" content="http://example.com/image_1.png">
+<meta property="og:image" content="http://example.com/image-1.png">
+<meta property="article:published_time" content="2025-06-20T18:37:12.000Z">
+<meta property="article:modified_time" content="2025-06-20T13:54:38.772Z">
 <meta property="article:author" content="meltlis">
+<meta property="article:tag" content="图形学">
+<meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/image_1.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>C++ STL unordered,个人理解总结 - Metlis的小窝</title>
+  <title>罗德里格斯公式 - Metlis的小窝</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -186,7 +191,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="C++ STL unordered,个人理解总结"></span>
+            <span id="subtitle" data-typed-text="罗德里格斯公式"></span>
           
         </div>
 
@@ -197,8 +202,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-01-30 12:16" pubdate>
-          2024年1月30日 中午
+        <time datetime="2025-06-20 18:37" pubdate>
+          2025年6月20日 晚上
         </time>
       </span>
     
@@ -209,7 +214,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          497 字
+          1.1k 字
         
       </span>
     
@@ -220,7 +225,7 @@
         
         
         
-          5 分钟
+          9 分钟
         
       </span>
     
@@ -265,7 +270,7 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">C++ STL unordered,个人理解总结</h1>
+            <h1 id="seo-header">罗德里格斯公式</h1>
             
               <p id="updated-time" class="note note-info" style="">
                 
@@ -278,21 +283,12 @@
             
               <div class="markdown-body">
                 
-                <p>很早以前写的。  </p>
+                <p>本文主旨是便于理解公式的大致原理和使用过程，其中数学推导可能有诸多不严谨的地方，希望多多包涵以及批评指正</p>
 <span id="more"></span>
-<h2 id="1-unordered-set-amp-unoderded-map"><a href="#1-unordered-set-amp-unoderded-map" class="headerlink" title="1.unordered_set &amp; unoderded_map"></a>1.unordered_set &amp; unoderded_map</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-built_in">unordered_set</span>(<span class="hljs-built_in">int</span>(hashvalue))hashname<br></code></pre></td></tr></table></figure>
-<p>仅存储value不存储key(&#x3D;0or1)。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-built_in">unordered_map</span>(<span class="hljs-built_in">int</span>(hashkey),<span class="hljs-built_in">int</span>(hashvalue))hashname<br></code></pre></td></tr></table></figure>
-<p>存储value与key</p>
-<h4 id="使用例-力扣第2670题"><a href="#使用例-力扣第2670题" class="headerlink" title="使用例 力扣第2670题"></a>使用例 力扣第2670题</h4><blockquote>
-<p>给你一个下标从 0 开始的数组 nums ，数组长度为 n 。<br>nums 的 不同元素数目差 数组可以用一个长度为 n 的数组 diff 表示，其中 diff[i] 等于前缀 nums[0, …, i] 中不同元素的数目 减去 后缀 nums[i + 1, …, n - 1] 中不同元素的数目。<br>返回 nums 的 不同元素数目差 数组。<br>注意 nums[i, …, j] 表示 nums 的一个从下标 i 开始到下标 j 结束的子数组（包含下标 i 和 j 对应元素）。特别需要说明的是，如果 i &gt; j ，则 nums[i, …, j] 表示一个空子数组。</p>
-</blockquote>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">distinctDifferenceArray</span><span class="hljs-params">(vector&lt;<span class="hljs-type">int</span>&gt;&amp; nums)</span> </span>&#123;<br>    <span class="hljs-type">int</span> i, j, len = nums.<span class="hljs-built_in">size</span>(), a =<span class="hljs-number">0</span>;<br>    unordered_map&lt;<span class="hljs-type">int</span>,<span class="hljs-type">int</span>&gt; nums1;<br>    unordered_map&lt;<span class="hljs-type">int</span>,<span class="hljs-type">int</span>&gt; nums2;<br>    <span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">ans</span><span class="hljs-params">(len)</span></span>;<br>    <span class="hljs-keyword">for</span>(i = <span class="hljs-number">0</span>; i &lt; len; i++)&#123;<br>        <span class="hljs-keyword">if</span>(!nums2[nums[i]])&#123;<br>            nums2[nums[i]]++;<br>            a--;<br>        &#125;<br>        <span class="hljs-keyword">else</span> nums2[nums[i]]++;<br>    &#125;<br>    <span class="hljs-keyword">for</span>(i = <span class="hljs-number">0</span>; i &lt; len; i++)&#123;<br>        <span class="hljs-keyword">if</span>(nums2[nums[i]])&#123;<br>            nums2[nums[i]]--;<br>            <span class="hljs-keyword">if</span>(!nums2[nums[i]])a++;<br>        &#125;<br>        <span class="hljs-keyword">if</span>(!nums1[nums[i]])&#123;<br>            a++;<br>            nums1[nums[i]]++;<br>        &#125;<br>        ans[i] = a;<br>    &#125;<br>    <span class="hljs-keyword">return</span> ans;<br>&#125;<br></code></pre></td></tr></table></figure>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">distinctDifferenceArray</span><span class="hljs-params">(vector&lt;<span class="hljs-type">int</span>&gt;&amp; nums)</span> </span>&#123;<br>    <span class="hljs-type">int</span> i, j, len = nums.<span class="hljs-built_in">size</span>(), a = <span class="hljs-number">0</span>;<br>    unordered_set&lt;<span class="hljs-type">int</span>&gt; num;<br>    <span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">ans</span><span class="hljs-params">(len,<span class="hljs-number">0</span>)</span></span>;<br>    <span class="hljs-keyword">for</span>(i = len <span class="hljs-number">-1</span>; i &gt; <span class="hljs-number">0</span>; --i)&#123;<br>        num.<span class="hljs-built_in">insert</span>(nums[i]);<br>        ans[i - <span class="hljs-number">1</span>] -= num.<span class="hljs-built_in">size</span>();<br>    &#125;<br>    num.<span class="hljs-built_in">clear</span>();<br>    <span class="hljs-keyword">for</span>(i = <span class="hljs-number">0</span>; i &lt; len; i++)&#123;<br>        num.<span class="hljs-built_in">insert</span>(nums[i]);<br>        ans[i] += num.<span class="hljs-built_in">size</span>();<br>    &#125;<br>    <span class="hljs-keyword">return</span> ans;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h2 id="2-operator-与-at-方法的区别"><a href="#2-operator-与-at-方法的区别" class="headerlink" title="2.operator()与.at()方法的区别"></a>2.operator()与.at()方法的区别</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++">cout&lt;&lt;hashname[hashkey]&lt;&lt;<span class="hljs-string">&quot; &quot;</span>&lt;&lt;hashname.<span class="hljs-built_in">at</span>(hashkey);<br></code></pre></td></tr></table></figure>
-<p>都用于输出输出hash对应key的值。区别在于当key不存在时，at()会抛出了超出范围的异常，而operator []会用默认值进行初始化，例<code>hashname.at(noexisthashkey); //error hashname[noexisthashkey];</code> 创建一个值为默认值0，键为noexisthashkey的对</p>
-<h2 id="3-auto-amp-a-b-：n与auto-amp-n-pair"><a href="#3-auto-amp-a-b-：n与auto-amp-n-pair" class="headerlink" title="3.auto&amp;[a, b]：n与auto&amp; n:pair"></a>3.auto&amp;[a, b]：n与auto&amp; n:pair</h2><p><code>for(auto&amp;[a, b]:n)</code>与<code>for(auto&amp; n:pair)</code>均为遍历键对。<br>前者a为键，b为键值。而后者通过n.first访问键，n.second访问键值</p>
+<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p><img src="/image_1.png" srcset="/img/loading.gif" lazyload alt="alt text"><br>看到题目的第一反应，是按照类似平移的思路，将向量axis绕y轴与x轴旋转变换至与z轴对齐，其角度取$arctan(y&#x2F;\sqrt{(x^2 * z^2)})$与$arctan(x&#x2F;\sqrt{(y^2 * z^2)})$，然后进行绕z轴的旋转变换再把之前进行的变换进行反变换就行了。然而稍微想想就能发现这样的错误，在绕y轴旋转之后，x与z都会发生变化，第二次旋转变换的角度完全是错误的，所以无法正确得到答案。因此，需要使用**罗德里格斯公式(Rodrigues’ rotation formula)**来解决这个问题。</p>
+<h2 id="什么是罗德里格斯公式"><a href="#什么是罗德里格斯公式" class="headerlink" title="什么是罗德里格斯公式"></a>什么是罗德里格斯公式</h2><p>在三维旋转理论体系中，罗德里格旋转公式是在给定转轴和旋转角度后，旋转一个向量的有效算法。这个公式以欧林·罗德里格命名。罗德里格于1840年发表此公式。<br>$$ \mathbf {v} _{\mathrm {rot} }&#x3D;\mathbf {v} \cos \theta +(\mathbf {k} \times \mathbf {v} )\sin \theta +\mathbf {k} (\mathbf {k} \cdot \mathbf {v} )(1-\cos \theta )<br>$$<br>上面的公式则是罗德里格斯公式的向量形式。在图形学中，通常还会采用罗德里格斯公式的变换矩阵形式：<br>$$<br>\mathbf{R}(n,\alpha) &#x3D; cos(\alpha)\mathbf{I} + (1-cos(\alpha))\mathbf{n}\mathbf{n}^T + sin(\alpha)<br>\begin{bmatrix}<br>0&amp;-n_z&amp;n_y\<br>n_z&amp;0&amp;-n_x\<br>-n_y&amp;n_x&amp;0<br>\end{bmatrix}<br>$$<br>下面将对公式进行推导。</p>
+<h2 id="推导"><a href="#推导" class="headerlink" title="推导"></a>推导</h2><p><img src="/image-1.png" srcset="/img/loading.gif" lazyload alt="Rodrigues 旋转公式图解"><br><em>图：Rodrigues 旋转公式图解，作者 Maschen，来源 <a target="_blank" rel="noopener" href="https://commons.wikimedia.org/wiki/File:Orthogonal_decomposition_unit_vector_rodrigues_rotation_formula.svg">Wikimedia Commons</a>，授权协议：CC0（公有领域）。</em><br>设将要被旋转的向量为$\mathbf{v}$, 所绕的轴单位向量为$\mathbf{k}$, $\mathbf{v}$在$\mathbf{k}$方向上竖直分量记为$\mathbf{v_{||}}$,在与$\mathbf{k}$垂直的方向上的水平分量记为$\mathbf{v_{⊥}}$, 旋转的角度为$\theta$。<br>显然：<br>$$\mathbf{v} &#x3D; \mathbf{v_{||}} + \mathbf{v_{⊥}}$$<br>当v旋转成$\mathbf{\hat{v}}$后，有<br>$$\mathbf{\hat{v}} &#x3D; \mathbf{\hat{v_{||}}} + \mathbf{\hat{v_{⊥}}}$$<br>$\mathbf{v_{||}}$与$\mathbf{k}$平行，所以$\mathbf{\hat{v_{||}}}$在旋转后依然与$\mathbf{k}$平行, 即$\mathbf{\hat{v}}$的竖直分量方向与$\mathbf{k}$一致, 有<br>$$\mathbf{\hat{v_{||}}} &#x3D; \mathbf{v_{||}} &#x3D; (\mathbf{v}·\mathbf{k})\mathbf{k}  $$<br>$\mathbf{k}×\mathbf{v} &#x3D; \mathbf{k}×(\mathbf{v_⊥} + \mathbf{v_{||}})$, 其中$\mathbf{k} × \mathbf{v_{||}} &#x3D; 0$,因此$\mathbf{k} × \mathbf{v}&#x3D; \mathbf{k} × \mathbf{v_{⊥}}$。<br>考虑水平方向的旋转，可知<br>$$\mathbf{v_{⊥}}cos\theta + (\mathbf{k}×\mathbf{v})sin\theta &#x3D; \mathbf{\hat{v_{⊥}}}$$<br>于是<br>$$\mathbf{\hat{v}} &#x3D; \mathbf{v_{⊥}}cos\theta + (\mathbf{k}×\mathbf{v})sin\theta + (\mathbf{v}·\mathbf{k})\mathbf{k}$$<br>又因为<br>$$\mathbf{v_{⊥}} &#x3D; \mathbf{v} - \mathbf{v_{||}} &#x3D; \mathbf{v} - (\mathbf{v}·\mathbf{k})\mathbf{k}  $$<br>所以<br>$$\mathbf{\hat{v}} &#x3D; (\mathbf{v} - (\mathbf{v}·\mathbf{k})\mathbf{k})cos\theta + (\mathbf{k}×\mathbf{v})sin\theta + (\mathbf{v}·\mathbf{k})\mathbf{k}$$<br>整理后得到<br>$$ \mathbf {v} &#x3D; \mathbf {v} \cos \theta +(\mathbf {k} \times \mathbf {v} )\sin \theta +\mathbf {k} (\mathbf {k} \cdot \mathbf {v} )(1-\cos \theta )<br>$$<br>也就是罗德里格斯公式的向量形式。<br>对于变换矩阵形式，我们先把$\mathbf {v}$提出来<br>$$\cos \theta +(\mathbf {k} ×\mathbf{v})&#x2F;\mathbf{v}\sin \theta +\mathbf {k} (\mathbf {k} )(1-\cos \theta )$$<br>对于向量叉乘,可以看作一个向量的反对称矩阵乘另一个向量，于是有<br>$$\mathbf {k} ×\mathbf{v} &#x3D; \begin{bmatrix}<br>    0&amp;-n_z&amp;n_y\<br>    n_z&amp;0&amp;-n_x\<br>    -n_y&amp;n_x&amp;0<br>\end{bmatrix}\mathbf{v}$$<br>令轴向量为$\mathbf {n}$,则有<br>$$\mathbf{I}\cos \theta + \begin{bmatrix}<br>    0&amp;-n_z&amp;n_y\<br>    n_z&amp;0&amp;-n_x\<br>    -n_y&amp;n_x&amp;0<br>\end{bmatrix} \sin \theta +\mathbf {n} \mathbf {n^T} (1-\cos \theta )$$<br>正是罗德里罗斯公式德变换矩阵形式。<br>体现在代码中</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">//使用Eigen线性代数库</span><br><span class="hljs-function">Eigen::Matrix4f <span class="hljs-title">get_rotation</span><span class="hljs-params">(Vector3f axis, <span class="hljs-type">float</span> angle)</span></span>&#123;<br>    <span class="hljs-comment">//Rodrigues&#x27;s Rotation Formula</span><br>    Eigen::Matrix4f r1, r2, r3;<br>    <span class="hljs-comment">//Normalize vector</span><br>    <span class="hljs-type">float</span> lenth = <span class="hljs-built_in">sqrt</span>(axis[<span class="hljs-number">0</span>] * axis[<span class="hljs-number">0</span>] + axis[<span class="hljs-number">1</span>] * axis[<span class="hljs-number">1</span>] + axis[<span class="hljs-number">2</span>] * axis[<span class="hljs-number">2</span>]);<br>    <span class="hljs-keyword">if</span>(lenth == <span class="hljs-number">0</span>)<span class="hljs-keyword">return</span> Eigen::Matrix4f::<span class="hljs-built_in">Identity</span>();<br>    axis[<span class="hljs-number">0</span>] = axis[<span class="hljs-number">0</span>] / lenth;<br>    axis[<span class="hljs-number">1</span>] = axis[<span class="hljs-number">1</span>] / lenth;<br>    axis[<span class="hljs-number">2</span>] = axis[<span class="hljs-number">2</span>] / lenth;<br>    <span class="hljs-comment">//Horizontal component</span><br>    r1 &lt;&lt; <span class="hljs-built_in">cos</span>(angle), <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>,<br>        <span class="hljs-number">0</span>, <span class="hljs-built_in">cos</span>(angle), <span class="hljs-number">0</span>, <span class="hljs-number">0</span>,<br>        <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-built_in">cos</span>(angle), <span class="hljs-number">0</span>,<br>        <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>;<br>    <span class="hljs-type">float</span> t = <span class="hljs-number">1</span> - <span class="hljs-built_in">cos</span>(angle);<br>    <span class="hljs-comment">//vertical component</span><br>    r2 &lt;&lt; t * axis[<span class="hljs-number">0</span>] * axis[<span class="hljs-number">0</span>], t * axis[<span class="hljs-number">0</span>] * axis[<span class="hljs-number">1</span>], t * axis[<span class="hljs-number">0</span>] * axis[<span class="hljs-number">2</span>], <span class="hljs-number">0</span>,<br>        t * axis[<span class="hljs-number">1</span>] * axis[<span class="hljs-number">0</span>], t * axis[<span class="hljs-number">1</span>] * axis[<span class="hljs-number">1</span>], t * axis[<span class="hljs-number">1</span>] * axis[<span class="hljs-number">2</span>], <span class="hljs-number">0</span>,<br>        t * axis[<span class="hljs-number">2</span>] * axis[<span class="hljs-number">0</span>], t * axis[<span class="hljs-number">2</span>] * axis[<span class="hljs-number">1</span>], t * axis[<span class="hljs-number">2</span>] * axis[<span class="hljs-number">2</span>], <span class="hljs-number">0</span>,<br>        <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>;<br>    t = <span class="hljs-built_in">sin</span>(angle);<br>    r3 &lt;&lt; <span class="hljs-number">0</span>, t * -axis[<span class="hljs-number">2</span>], t * axis[<span class="hljs-number">1</span>], <span class="hljs-number">0</span>,<br>        t * axis[<span class="hljs-number">2</span>], <span class="hljs-number">0</span>, t * -axis[<span class="hljs-number">0</span>], <span class="hljs-number">0</span>, <br>        t * -axis[<span class="hljs-number">1</span>], t * axis[<span class="hljs-number">0</span>], <span class="hljs-number">0</span>, <span class="hljs-number">0</span>,<br>        <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>;    <br>    <span class="hljs-keyword">return</span> r1 + r2 + r3;<br>&#125;<br></code></pre></td></tr></table></figure>
 
                 
               </div>
@@ -301,34 +297,15 @@
             <div>
               <div class="post-metas my-3">
   
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
       
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E5%AD%A6%E4%B9%A0/" class="category-chain-item">学习</a>
-  
-  
-    <span>></span>
-    
-  <a href="/categories/%E5%AD%A6%E4%B9%A0/C/" class="category-chain-item">C++</a>
-  
-  
-
-  
-
-      </span>
-    
-  
-</span>
-
+        <a href="/tags/%E5%9B%BE%E5%BD%A2%E5%AD%A6/" class="print-no-link">#图形学</a>
+      
+        <a href="/tags/C/" class="print-no-link">#C++</a>
+      
     </div>
-  
   
 </div>
 
@@ -338,8 +315,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>C++ STL unordered,个人理解总结</div>
-      <div>http://example.com/2024/01/30/Cpp容器/</div>
+      <div>罗德里格斯公式</div>
+      <div>http://example.com/2025/06/20/罗德里格斯公式/</div>
     </div>
     <div class="license-meta">
       
@@ -351,7 +328,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年1月30日</div>
+          <div>2025年6月20日</div>
         </div>
       
       
@@ -383,15 +360,15 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/12/31/%E5%8D%9A%E5%AE%A2%E4%B8%8A%E7%BA%BF/" title="博客上线">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">博客上线</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2025/03/04/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%202025.4.2/" title="每日一题 2025.4.2">
+                        <span class="hidden-mobile">每日一题 2025.4.2</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>
