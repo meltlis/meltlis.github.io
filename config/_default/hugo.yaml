@@ -4,16 +4,16 @@
 # This file is formatted using YAML syntax - learn more at https://learnxinyminutes.com/docs/yaml/
 
 # Website name (set in params.yaml under hugoblox.branding.name)
-title: ''
+title: 'Metlis的小窝'
 # Website URL
-baseURL: 'https://example.com/'
+baseURL: 'https://meltlis.github.io/'
 
 ############################
 ## LANGUAGE
 ############################
 
-defaultContentLanguage: en
-hasCJKLanguage: false
+defaultContentLanguage: zh
+hasCJKLanguage: true
 defaultContentLanguageInSubdir: false
 removePathAccents: true
 
@@ -54,7 +54,10 @@ timeout: 600000
 taxonomies:
   author: authors
   tag: tags
+  category: categories
   publication_type: publication_types
+permalinks:
+  blog: /:year/:month/:day/:slugorcontentbasename/
 markup:
   _merge: deep
   highlight:

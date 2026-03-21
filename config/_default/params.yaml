@@ -13,18 +13,18 @@ hugoblox:
   # ────────────────────────────────────────────────────────────────────────────
   identity:
     # Site name - shown in navbar, footer, copyright, and browser title by default
-    name: "Your Name"
+    name: "Meltlis's blog"
     # Legal entity for copyright notices (defaults to name if not set)
     organization: ""
     # Schema.org type for structured data
     type: person                        # person | organization | local_business
     # Short tagline displayed on your site
-    tagline: ""
+    tagline: "图形学、学习笔记与个人记录"
     # Site meta description for search engines and social sharing
-    description: "The highly-customizable Hugo Academic theme powered by HugoBlox Kit. Easily create your personal academic website."
+    description: "Meltlis 的个人博客，记录图形学、C++ 学习笔记和日常更新。"
     # Social accounts (used for meta tags like Twitter Cards)
     social:
-      twitter: "MakeOwnable"              # Twitter/X handle for Twitter Cards (without @)
+      twitter: ""              # Twitter/X handle for Twitter Cards (without @)
 
   # ────────────────────────────────────────────────────────────────────────────
   # THEME
@@ -87,12 +87,12 @@ hugoblox:
     # Stick to top on scroll
     sticky: true
     # Menu alignment
-    align: center                       # left | center | right
+    align: left                       # left | center | right
     # Feature toggles
     search: true
     theme_toggle: true
     theme_picker: true
-    language_switcher: true
+    language_switcher: false
     # Call-to-action button
     cta:
       enable: false
@@ -106,7 +106,7 @@ hugoblox:
   footer:
     # Footer style variant
     style: minimal                      # minimal | columns | centered
-    language_switcher: true
+    language_switcher: false
     # Custom footer text (HTML supported)
     text: ""
 
@@ -147,7 +147,7 @@ hugoblox:
       allow:
         - /
       disallow: []
-      note: "Guidance for AI crawlers - customize to match your public content."
+      note: "公开内容以个人博客文章和个人介绍为主。"
       contact: ""
 
   # ────────────────────────────────────────────────────────────────────────────
@@ -175,7 +175,10 @@ hugoblox:
   search:
     enable: true
     # Trending/suggested search terms
-    suggestions: []
+    suggestions:
+      - 图形学
+      - C++
+      - LeetCode
     # Quick action shortcuts in search modal
     quick_actions: []
 
@@ -241,8 +244,8 @@ hugoblox:
   # Regional formatting preferences
   # ────────────────────────────────────────────────────────────────────────────
   locale:
-    date_format: "Jan 2, 2006"          # Go time format
-    time_format: "3:04 PM"
+    date_format: "2006-01-02"          # Go time format
+    time_format: "15:04"
     address_format: en-us
 
   # ────────────────────────────────────────────────────────────────────────────
