@@ -1,6 +1,6 @@
 ---
 title: '碎碎念'
-date: '2026-03-21 22:30:00'
+date: '2026-03-21T22:30:00+08:00'
 authors:
   - me
 categories:
