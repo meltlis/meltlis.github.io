@@ -30,6 +30,9 @@ links:
   - icon: custom/steam
     url: https://steamcommunity.com/id/meltlisdesein
     label: Steam
+  - icon: custom/resume
+    url: "" # 之後將 PDF 放到 static/uploads/resume.pdf 並填寫 /uploads/resume.pdf 即可
+    label: Resume
 
 interests:
   - Graphics

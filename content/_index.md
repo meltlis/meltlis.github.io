@@ -16,10 +16,6 @@ sections:
       # Choose a user profile to display (from `data/authors/`)
       username: me
       text: ''
-      # Show a call-to-action button under your biography? (optional)
-      button:
-        text: View Posts
-        url: /blog/
       headings:
         about: About Me
         education: Experience
