@@ -1,27 +1,68 @@
-{{/* Function to retrieve the featured image with a blog-level fallback */}}
+{{/* Function to retrieve an optional per-post featured/cover image (supports GIF / animated WebP / APNG / PNG / JPG / SVG) */}}
 {{/* Inputs: page context */}}
-{{/* Output: image resource, or nil if not found */}}
+{{/* Output: image resource, or false if not configured / disabled */}}
 
 {{/*
-    Featured image is searched in this order:
-      1. Search for a file `*featured*` in the page directory
-      2. Search for a file `.Params.image.filename` in the page directory
-      3. Search for a file `.Params.image.filename` in the `assets/media/` directory
-      4. For blog posts only, fall back to `assets/星莲船小伞.png`
+    Opt-out per post:
+      - Set `show_cover: false` or `image: { show: false }` in front matter to hide cover image completely.
+      - Set `image: { preview_only: true }` to show cover image on list/homepage cards only (hidden inside article page).
+
+    Opt-in per post (searched in this order):
+      1. `.Params.image.filename` in the page bundle (including subdirectories like `images/demo.gif`)
+      2. `.Params.image.filename` in `assets/media/` (or `assets/`)
+      3. `*featured*` file in the page bundle (e.g. `featured.gif`, `featured.webp`, `featured.png`, `featured.jpg`, `featured.apng`)
 */}}
 
-{{ $resource := (.Resources.ByType "image").GetMatch "*featured*" }}
-{{ if eq $resource nil }}
-  {{ $filename := "" }}
-  {{ if and .Params.image (reflect.IsMap .Params.image) }}
-    {{ $filename = .Params.image.filename }}
+{{ $disabled := false }}
+{{ if eq .Params.show_cover false }}
+  {{ $disabled = true }}
+{{ end }}
+{{ if and (not $disabled) .Params.image (reflect.IsMap .Params.image) }}
+  {{ if eq .Params.image.show false }}
+    {{ $disabled = true }}
   {{ end }}
-  {{ $resource = (.Resources.ByType "image").GetMatch $filename }}
-  {{ if eq $resource nil }}{{ $resource = resources.GetMatch (path.Join "media" $filename) }}{{ end }}
 {{ end }}
 
-{{ if and (eq $resource nil) (eq .Section "blog") }}
-  {{ $resource = resources.GetMatch "星莲船小伞.png" }}
+{{ $resource := false }}
+{{ if not $disabled }}
+  {{ $filename := "" }}
+  {{ if and .Params.image (reflect.IsMap .Params.image) }}
+    {{ with .Params.image.filename }}
+      {{ $filename = strings.TrimSpace (printf "%v" .) }}
+    {{ end }}
+  {{ end }}
+
+  {{ if $filename }}
+    {{ with .Resources.GetMatch $filename }}
+      {{ $resource = . }}
+    {{ end }}
+    {{ if not $resource }}
+      {{ with (.Resources.ByType "image").GetMatch $filename }}
+        {{ $resource = . }}
+      {{ end }}
+    {{ end }}
+    {{ if not $resource }}
+      {{ with resources.Get (path.Join "media" $filename) }}
+        {{ $resource = . }}
+      {{ end }}
+    {{ end }}
+    {{ if not $resource }}
+      {{ with resources.GetMatch $filename }}
+        {{ $resource = . }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+
+  {{ if not $resource }}
+    {{ with (.Resources.ByType "image").GetMatch "*featured*" }}
+      {{ $resource = . }}
+    {{ end }}
+  {{ end }}
+  {{ if not $resource }}
+    {{ with .Resources.GetMatch "*featured*.apng" }}
+      {{ $resource = . }}
+    {{ end }}
+  {{ end }}
 {{ end }}
 
 {{ return $resource }}

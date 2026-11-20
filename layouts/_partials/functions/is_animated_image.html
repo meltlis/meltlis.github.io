@@ -1,0 +1,22 @@
+{{/* Determine if an image resource should bypass Hugo raster processing to preserve animation (GIF, animated WebP, APNG, or explicit animated flag) */}}
+{{ $resource := .resource }}
+{{ $item := .item }}
+{{ $animated := false }}
+
+{{ if $resource }}
+  {{ $subtype := lower $resource.MediaType.SubType }}
+  {{ $ext := lower (path.Ext $resource.Name) }}
+  {{ if or (eq $subtype "gif") (eq $subtype "webp") (eq $subtype "apng") (eq $ext ".gif") (eq $ext ".webp") (eq $ext ".apng") }}
+    {{ $animated = true }}
+  {{ end }}
+{{ end }}
+
+{{ if and (not $animated) $item }}
+  {{ if and $item.Params.image (reflect.IsMap $item.Params.image) }}
+    {{ if $item.Params.image.animated }}
+      {{ $animated = true }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ return $animated }}

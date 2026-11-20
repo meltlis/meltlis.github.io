@@ -1,0 +1,486 @@
+{{/* Custom Hugo Blox: Profile Sidebar + Pinned Highlight Works & Recent Posts */}}
+{{ $page := .wcPage }}
+{{ $block := .wcBlock }}
+
+{{ $content := $block.content }}
+{{ if not (reflect.IsMap $content) }}{{ $content = dict }}{{ end }}
+{{ $design := $block.design }}
+{{ if not (reflect.IsMap $design) }}{{ $design = dict }}{{ end }}
+
+{{/* Author Profile */}}
+{{ $author := "me" }}
+{{ $authorRaw := index $content "username" }}
+{{ if eq (printf "%T" $authorRaw) "string" }}
+  {{ $author = $authorRaw }}
+{{ end }}
+{{ $profile := partial "functions/get_author_profile" $author }}
+{{ $avatar := $profile.avatar }}
+
+{{ $headings := index $content "headings" }}
+{{ if not (reflect.IsMap $headings) }}{{ $headings = dict }}{{ end }}
+
+{{/* Avatar shape */}}
+{{ $avatar_shape := "circle" }}
+{{ $avatar_config := index $design "avatar" }}
+{{ if and $avatar_config (reflect.IsMap $avatar_config) }}
+  {{ $shape_raw := index $avatar_config "shape" }}
+  {{ if eq (printf "%T" $shape_raw) "string" }}
+    {{ $avatar_shape = $shape_raw }}
+  {{ end }}
+{{ end }}
+{{ $shape_classes := dict "circle" "rounded-full" "square" "rounded-none" "rounded" "rounded-xl" }}
+{{ $shape_class := index $shape_classes $avatar_shape | default "rounded-full" }}
+
+{{/* Sticky-safe top gradient mesh */}}
+{{ $mesh_enabled := true }}
+{{ $mesh_cfg := index $design "gradient_mesh" }}
+{{ if and $mesh_cfg (reflect.IsMap $mesh_cfg) (isset $mesh_cfg "enable") }}
+  {{ $mesh_enabled = partial "functions/coerce_bool" (dict "value" (index $mesh_cfg "enable") "default" true) }}
+{{ end }}
+
+{{/* Status icon */}}
+{{ $status_icon := "" }}
+{{ $status := $profile.status }}
+{{ if and $status (reflect.IsMap $status) }}
+  {{ $status_icon_raw := index $status "icon" }}
+  {{ if eq (printf "%T" $status_icon_raw) "string" }}
+    {{ $status_icon = strings.TrimSpace $status_icon_raw }}
+  {{ end }}
+{{ end }}
+
+{{/* Bio content */}}
+{{ $bio_content := "" }}
+{{ $bio_override_raw := index $content "text" }}
+{{ if ne $bio_override_raw nil }}
+  {{ $bio_override := strings.TrimSpace (printf "%v" $bio_override_raw) }}
+  {{ if $bio_override }}
+    {{ $bio_content = $bio_override | emojify | $page.RenderString }}
+  {{ end }}
+{{ end }}
+{{ if not $bio_content }}
+  {{ with $profile.bio }}{{ $bio_content = printf "%v" . | emojify | $page.RenderString }}{{ end }}
+{{ end }}
+
+{{/* Highlights config & query */}}
+{{ $highlights_cfg := index $content "highlights" }}
+{{ if not (reflect.IsMap $highlights_cfg) }}{{ $highlights_cfg = dict }}{{ end }}
+{{ $highlights_title := "Highlight Works" }}
+{{ with index $highlights_cfg "title" }}
+  {{ $t := strings.TrimSpace (printf "%v" .) }}
+  {{ if $t }}{{ $highlights_title = $t }}{{ end }}
+{{ end }}
+{{ $highlights_empty := "Nothing for now : )" }}
+{{ with index $highlights_cfg "empty_text" }}
+  {{ $t := strings.TrimSpace (printf "%v" .) }}
+  {{ if $t }}{{ $highlights_empty = $t }}{{ end }}
+{{ end }}
+{{ $highlights_hint := "" }}
+{{ with index $highlights_cfg "empty_hint" }}
+  {{ $highlights_hint = strings.TrimSpace (printf "%v" .) }}
+{{ end }}
+{{ $highlights_res := partial "hbx/blocks/profile-highlight/query.html" $highlights_cfg }}
+{{ $highlight_items := $highlights_res.items }}
+
+{{ $hl_design := index $design "highlights" }}
+{{ if not (reflect.IsMap $hl_design) }}{{ $hl_design = dict }}{{ end }}
+{{ $hl_cols := partial "functions/coerce_int" (dict "value" (index $hl_design "columns") "default" 2 "min" 1 "max" 3) }}
+{{ $hl_show_image := partial "functions/coerce_bool" (dict "value" (index $hl_design "show_image") "default" true) }}
+
+{{/* Recent Posts config & query */}}
+{{ $recent_cfg := index $content "recent" }}
+{{ if not (reflect.IsMap $recent_cfg) }}{{ $recent_cfg = dict }}{{ end }}
+{{ $recent_enabled := partial "functions/coerce_bool" (dict "value" (index $recent_cfg "enable") "default" true) }}
+{{ $recent_title := "Recent Posts" }}
+{{ with index $recent_cfg "title" }}
+  {{ $t := strings.TrimSpace (printf "%v" .) }}
+  {{ if $t }}{{ $recent_title = $t }}{{ end }}
+{{ end }}
+{{ $recent_res := dict "items" (slice) "total" 0 "count" 0 "archive_page" "" }}
+{{ if $recent_enabled }}
+  {{ $recent_res = partial "hbx/blocks/profile-highlight/query.html" $recent_cfg }}
+{{ end }}
+{{ $recent_items := $recent_res.items }}
+
+{{ $recent_design := index $design "recent" }}
+{{ if not (reflect.IsMap $recent_design) }}{{ $recent_design = dict }}{{ end }}
+{{ $recent_cols := partial "functions/coerce_int" (dict "value" (index $recent_design "columns") "default" 2 "min" 1 "max" 3) }}
+{{ $recent_show_image := partial "functions/coerce_bool" (dict "value" (index $recent_design "show_image") "default" false) }}
+
+{{ if $mesh_enabled }}
+<div class="pointer-events-none absolute inset-x-0 top-0 h-[460px] overflow-hidden -z-10" aria-hidden="true">
+  <div class="absolute inset-0 bg-gradient-to-b from-primary-500/15 via-secondary-500/5 to-transparent"></div>
+  <div class="absolute -top-24 left-1/4 w-96 h-96 bg-primary-500/20 rounded-full filter blur-3xl animate-pulse"></div>
+  <div class="absolute top-8 right-1/4 w-96 h-96 bg-secondary-500/15 rounded-full filter blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
+</div>
+{{ end }}
+
+<div class="profile-highlight-layout relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="grid grid-cols-1 lg:grid-cols-[310px_minmax(0,1fr)] xl:grid-cols-[340px_minmax(0,1fr)] gap-6 xl:gap-8 items-start">
+
+    {{/* ================================================================
+         LEFT COLUMN: Condensed Profile Sidebar
+         ================================================================ */}}
+    <aside class="lg:sticky lg:top-20 self-start">
+      <div class="rounded-2xl bg-white/85 dark:bg-gray-900/75 backdrop-blur-md ring-1 ring-gray-900/10 dark:ring-white/10 shadow-lg p-4 sm:p-5 space-y-4">
+
+        {{/* Identity Header: Avatar + Name + Socials */}}
+        <div class="flex items-center gap-3.5">
+          {{ if $avatar }}
+          <div class="relative flex-shrink-0 w-[72px] h-[72px]">
+            {{ $avatar_image := $avatar.Fill "200x200 Center" }}
+            <img class="w-[72px] h-[72px] {{ $shape_class }} border-2 border-white dark:border-gray-700 shadow-md object-cover"
+                 src="{{ $avatar_image.RelPermalink }}"
+                 alt="{{ $profile.title }}"
+                 width="72"
+                 height="72">
+            {{ with $status_icon }}
+            <span class="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-white dark:bg-gray-950 ring-1 ring-gray-200 dark:ring-gray-700 shadow flex items-center justify-center text-xs leading-none">
+              {{ . | emojify }}
+            </span>
+            {{ end }}
+          </div>
+          {{ end }}
+
+          <div class="min-w-0 flex-1">
+            {{ $name_pronunciation := "" }}
+            {{ with $profile.name_pronunciation }}
+              {{ if eq (printf "%T" .) "string" }}{{ $name_pronunciation = strings.TrimSpace . }}{{ end }}
+            {{ end }}
+            {{ if and $profile.title $name_pronunciation }}
+              <h1 class="text-2xl font-black text-gray-900 dark:text-white tracking-tight leading-tight truncate">
+                <ruby class="hb-ruby-name">{{ $profile.title }}<rt>{{ $name_pronunciation }}</rt></ruby>
+              </h1>
+            {{ else }}
+              <h1 class="text-2xl font-black text-gray-900 dark:text-white tracking-tight leading-tight truncate">
+                {{ $profile.title }}
+              </h1>
+            {{ end }}
+
+            {{ with $profile.role }}
+              {{ if and (eq (printf "%T" .) "string") (ne (strings.TrimSpace .) "") }}
+                <p class="text-xs font-semibold text-primary-600 dark:text-primary-400 mt-0.5 truncate">{{ . | markdownify | emojify }}</p>
+              {{ end }}
+            {{ end }}
+
+            {{/* Social Icons Row */}}
+            {{ $links_raw := $profile.links }}
+            {{ $links := slice }}
+            {{ if reflect.IsSlice $links_raw }}
+              {{ $links = $links_raw }}
+            {{ else if eq (printf "%T" $links_raw) "string" }}
+              {{ $links = slice $links_raw }}
+            {{ end }}
+            {{ if gt (len $links) 0 }}
+            <div class="flex flex-wrap items-center gap-2 mt-2.5">
+              {{ range $links }}
+                {{ $linkUrl := "" }}
+                {{ $iconName := "hero/link" }}
+                {{ $linkLabel := "" }}
+                {{ if reflect.IsMap . }}
+                  {{ $urlRaw := index . "url" | default (index . "link") }}
+                  {{ if eq (printf "%T" $urlRaw) "string" }}{{ $linkUrl = $urlRaw }}{{ end }}
+                  {{ $iconRaw := index . "icon" }}
+                  {{ if eq (printf "%T" $iconRaw) "string" }}{{ $iconName = $iconRaw }}{{ end }}
+                  {{ $labelRaw := index . "label" }}
+                  {{ if eq (printf "%T" $labelRaw) "string" }}{{ $linkLabel = $labelRaw }}{{ end }}
+                {{ else if eq (printf "%T" .) "string" }}
+                  {{ $linkUrl = . }}
+                {{ end }}
+                {{ $linkUrl = strings.TrimSpace $linkUrl }}
+                {{ if $linkUrl }}
+                  {{ $scheme := (urls.Parse $linkUrl).Scheme }}
+                  {{ $target := "" }}
+                  {{ if not $scheme }}
+                    {{ if not (hasPrefix $linkUrl "#") }}{{ $linkUrl = $linkUrl | relLangURL }}{{ end }}
+                    {{ if eq (path.Ext $linkUrl) ".pdf" }}{{ $target = "target=\"_blank\" rel=\"noopener\"" }}{{ end }}
+                  {{ else if in (slice "http" "https") $scheme }}
+                    {{ $target = "target=\"_blank\" rel=\"noopener\"" }}
+                  {{ end }}
+                  <a href="{{ $linkUrl | safeURL }}" {{ $target | safeHTMLAttr }}
+                     aria-label="{{ $linkLabel | default $iconName }}"
+                     {{ if $linkLabel }}title="{{ $linkLabel }}"{{ end }}
+                     class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100/90 dark:bg-gray-800 text-gray-600 dark:text-gray-300 ring-1 ring-gray-900/5 dark:ring-white/10 hover:bg-primary-100 dark:hover:bg-primary-900/50 hover:text-primary-600 dark:hover:text-primary-400 hover:-translate-y-0.5 transition-all duration-200">
+                    {{ partial "functions/get_icon" (dict "name" $iconName "attributes" "class=\"w-4 h-4\"") }}
+                  </a>
+                {{ end }}
+              {{ end }}
+            </div>
+            {{ end }}
+          </div>
+        </div>
+
+        {{/* About Me Section + CTA Button */}}
+        {{ if $bio_content }}
+        <div class="pt-3.5 border-t border-gray-200/70 dark:border-gray-800/80 space-y-2.5">
+          <div class="flex items-center gap-2.5">
+            <div class="flex-shrink-0 w-7 h-7 bg-primary-100 dark:bg-primary-900/50 rounded-full flex items-center justify-center">
+              {{ partial "functions/get_icon" (dict "name" "identification" "attributes" "class='w-4 h-4 text-primary-600 dark:text-primary-400'") }}
+            </div>
+            {{ $i18n_about := i18n "about_me" }}
+            {{ $about_heading := cond (eq $i18n_about "about_me") "About Me" $i18n_about }}
+            {{ $about_heading_raw := index $headings "about" }}
+            {{ if eq (printf "%T" $about_heading_raw) "string" }}
+              {{ $about_heading_raw = strings.TrimSpace $about_heading_raw }}
+              {{ if ne $about_heading_raw "" }}{{ $about_heading = $about_heading_raw }}{{ end }}
+            {{ end }}
+            <h2 class="text-sm font-bold text-gray-900 dark:text-white tracking-tight">{{ $about_heading }}</h2>
+          </div>
+
+          <div class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed prose prose-sm dark:prose-invert max-w-none [&>p]:my-0">
+            {{ $bio_content }}
+          </div>
+
+          {{/* Compact View Posts CTA Button */}}
+          {{ $button_raw := index $content "button" }}
+          {{ if and $button_raw (reflect.IsMap $button_raw) }}
+            {{ $button_text := "" }}
+            {{ $button_url := "" }}
+            {{ with index $button_raw "text" }}{{ $button_text = strings.TrimSpace (printf "%v" .) }}{{ end }}
+            {{ with index $button_raw "url" }}{{ $button_url = strings.TrimSpace (printf "%v" .) }}{{ end }}
+            {{ if and $button_text $button_url }}
+              {{ $button_link := $button_url }}
+              {{ $scheme := (urls.Parse $button_link).Scheme }}
+              {{ $target := "" }}
+              {{ if not $scheme }}
+                {{ if not (hasPrefix $button_link "#") }}{{ $button_link = $button_link | relLangURL }}{{ end }}
+                {{ if eq (path.Ext $button_link) ".pdf" }}{{ $target = "target=\"_blank\" rel=\"noopener\"" }}{{ end }}
+              {{ else if in (slice "http" "https") $scheme }}
+                {{ $target = "target=\"_blank\" rel=\"noopener\"" }}
+              {{ end }}
+              <div class="pt-0.5">
+                <a href="{{ $button_link | safeURL }}" {{ $target | safeHTMLAttr }}
+                   class="w-full inline-flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-primary-600 to-secondary-600 hover:from-primary-700 hover:to-secondary-700 text-white font-semibold text-sm rounded-xl shadow-md hover:shadow-lg transition-all duration-200">
+                  {{ partial "functions/get_icon" (dict "name" "document-arrow-down" "attributes" "class='w-4 h-4'") }}
+                  <span>{{ $button_text }}</span>
+                </a>
+              </div>
+            {{ end }}
+          {{ end }}
+        </div>
+        {{ end }}
+
+        {{/* Experience / Education Section */}}
+        {{ $education_raw := $profile.education }}
+        {{ $education := slice }}
+        {{ if reflect.IsSlice $education_raw }}{{ $education = $education_raw }}{{ end }}
+        {{ if gt (len $education) 0 }}
+        <div class="pt-3.5 border-t border-gray-200/70 dark:border-gray-800/80 space-y-2.5">
+          <div class="flex items-center gap-2.5">
+            <div class="flex-shrink-0 w-7 h-7 bg-primary-100 dark:bg-primary-900/50 rounded-full flex items-center justify-center">
+              {{ partial "functions/get_icon" (dict "name" "academic-cap" "attributes" "class='w-4 h-4 text-primary-600 dark:text-primary-400'") }}
+            </div>
+            {{ $education_heading := i18n "education" | default "Experience" }}
+            {{ $education_heading_raw := index $headings "education" }}
+            {{ if eq (printf "%T" $education_heading_raw) "string" }}
+              {{ $education_heading_raw = strings.TrimSpace $education_heading_raw }}
+              {{ if ne $education_heading_raw "" }}{{ $education_heading = $education_heading_raw }}{{ end }}
+            {{ end }}
+            <h2 class="text-sm font-bold text-gray-900 dark:text-white tracking-tight">{{ $education_heading | markdownify }}</h2>
+          </div>
+
+          <div class="space-y-2">
+            {{ range $education }}
+              {{ if reflect.IsMap . }}
+                {{ $degree := "" }}
+                {{ $degreeRaw := index . "degree" | default (index . "area") }}
+                {{ if ne $degreeRaw nil }}{{ $degree = printf "%v" $degreeRaw }}{{ end }}
+                {{ $year := "" }}
+                {{ with index . "year" }}{{ $year = printf "%v" . }}{{ end }}
+                {{ $start := "" }}
+                {{ with index . "start" }}{{ $start = printf "%v" . }}{{ end }}
+                {{ $end := "" }}
+                {{ with index . "end" }}{{ $end = printf "%v" . }}{{ end }}
+                {{ $institution := "" }}
+                {{ with index . "institution" }}{{ $institution = printf "%v" . }}{{ end }}
+                {{ $icon := "" }}
+                {{ $iconRaw := index . "icon" }}
+                {{ if eq (printf "%T" $iconRaw) "string" }}{{ $icon = $iconRaw }}{{ end }}
+
+                <div class="flex items-start gap-2.5 rounded-xl bg-gray-50/90 dark:bg-gray-800/60 p-2.5 ring-1 ring-gray-900/5 dark:ring-white/5 hover:ring-primary-500/30 transition-colors">
+                  <div class="flex-shrink-0 w-7 h-7 bg-white dark:bg-gray-800 ring-1 ring-gray-200 dark:ring-gray-700 rounded-full flex items-center justify-center mt-0.5">
+                    {{ if $icon }}
+                      {{ partial "functions/get_icon" (dict "name" $icon "attributes" "class='w-3.5 h-3.5 text-primary-600 dark:text-primary-400'") }}
+                    {{ else }}
+                      {{ partial "functions/get_icon" (dict "name" "academic-cap" "attributes" "class='w-3.5 h-3.5 text-primary-600 dark:text-primary-400'") }}
+                    {{ end }}
+                  </div>
+                  <div class="min-w-0 flex-1">
+                    {{ if $degree }}
+                      <p class="text-sm font-bold text-gray-900 dark:text-white leading-snug">{{ $degree }}</p>
+                    {{ end }}
+                    {{ if $institution }}
+                      <p class="text-xs text-gray-600 dark:text-gray-400 leading-snug mt-0.5">{{ $institution }}</p>
+                    {{ end }}
+                    {{ if $year }}
+                      <p class="text-[11px] text-gray-500 dark:text-gray-500 mt-0.5">{{ $year }}</p>
+                    {{ else if $start }}
+                      <p class="text-[11px] text-gray-500 dark:text-gray-500 mt-0.5">{{ $start }}{{ if $end }} – {{ $end }}{{ end }}</p>
+                    {{ end }}
+                  </div>
+                </div>
+              {{ end }}
+            {{ end }}
+          </div>
+        </div>
+        {{ end }}
+
+        {{/* Interests Section */}}
+        {{ $interests_raw := $profile.interests }}
+        {{ $interests := slice }}
+        {{ if reflect.IsSlice $interests_raw }}
+          {{ $interests = $interests_raw }}
+        {{ else if eq (printf "%T" $interests_raw) "string" }}
+          {{ $interests = slice $interests_raw }}
+        {{ end }}
+        {{ if gt (len $interests) 0 }}
+        <div class="pt-3.5 border-t border-gray-200/70 dark:border-gray-800/80 space-y-2.5">
+          <div class="flex items-center gap-2.5">
+            <div class="flex-shrink-0 w-7 h-7 bg-primary-100 dark:bg-primary-900/50 rounded-full flex items-center justify-center">
+              {{ partial "functions/get_icon" (dict "name" "sparkles" "attributes" "class='w-4 h-4 text-primary-600 dark:text-primary-400'") }}
+            </div>
+            {{ $interests_heading := i18n "interests" | default "Interests" }}
+            {{ $interests_heading_raw := index $headings "interests" }}
+            {{ if eq (printf "%T" $interests_heading_raw) "string" }}
+              {{ $interests_heading_raw = strings.TrimSpace $interests_heading_raw }}
+              {{ if ne $interests_heading_raw "" }}{{ $interests_heading = $interests_heading_raw }}{{ end }}
+            {{ end }}
+            <h2 class="text-sm font-bold text-gray-900 dark:text-white tracking-tight">{{ $interests_heading | markdownify }}</h2>
+          </div>
+
+          <div class="flex flex-wrap gap-1.5">
+            {{ range $interests }}
+              {{ $interest := strings.TrimSpace (printf "%v" .) }}
+              {{ if $interest }}
+              <span class="inline-block bg-primary-50 dark:bg-gray-800 text-primary-800 dark:text-primary-200 text-xs font-medium px-2.5 py-1 rounded-full border border-primary-200/60 dark:border-primary-800/60 hover:bg-primary-100 dark:hover:bg-primary-500 dark:hover:text-gray-900 dark:hover:border-primary-500 transition-colors cursor-default">
+                {{ $interest | markdownify | emojify }}
+              </span>
+              {{ end }}
+            {{ end }}
+          </div>
+        </div>
+        {{ end }}
+
+      </div>
+    </aside>
+
+    {{/* ================================================================
+         RIGHT COLUMN: Pinned Highlight Works + Recent Posts
+         ================================================================ */}}
+    <div class="min-w-0 space-y-9">
+
+      {{/* 1. Pinned Highlight Works */}}
+      <div id="featured-work" class="space-y-4">
+        <div class="flex items-center justify-between gap-3">
+          <div class="flex items-center gap-2.5 min-w-0">
+            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-100 dark:bg-primary-900/50 text-primary-600 dark:text-primary-400 flex items-center justify-center">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M16 12V4h1V2H7v2h1v8l-2 2v2h5.2v6h1.6v-6H18v-2l-2-2z"/>
+              </svg>
+            </div>
+            <h2 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white tracking-tight truncate">
+              {{ $highlights_title | emojify | $page.RenderString }}
+            </h2>
+            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold uppercase tracking-wider bg-primary-100/80 dark:bg-primary-900/40 text-primary-700 dark:text-primary-300">
+              Pinned
+            </span>
+          </div>
+        </div>
+
+        {{ if gt (len $highlight_items) 0 }}
+          {{ if eq (len $highlight_items) 1 }}
+            <div class="grid grid-cols-1 gap-5">
+              {{ range $index, $item := $highlight_items }}
+                {{ partial "hbx/blocks/profile-highlight/card.html" (dict "item" $item "index" $index "pinned" true "spotlight" true "show_image" $hl_show_image) }}
+              {{ end }}
+            </div>
+          {{ else }}
+            <div class="grid grid-cols-1 {{ if eq $hl_cols 1 }}md:grid-cols-1{{ else if eq $hl_cols 3 }}md:grid-cols-2 xl:grid-cols-3{{ else }}md:grid-cols-2{{ end }} gap-5">
+              {{ range $index, $item := $highlight_items }}
+                {{ partial "hbx/blocks/profile-highlight/card.html" (dict "item" $item "index" $index "pinned" true "spotlight" false "show_image" $hl_show_image) }}
+              {{ end }}
+            </div>
+          {{ end }}
+        {{ else }}
+          <div class="rounded-2xl border border-dashed border-gray-300/90 dark:border-gray-700/80 bg-white/60 dark:bg-gray-900/45 backdrop-blur-sm px-5 py-4 flex items-center gap-3.5">
+            <div class="flex-shrink-0 w-9 h-9 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500 flex items-center justify-center">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M16 12V4h1V2H7v2h1v8l-2 2v2h5.2v6h1.6v-6H18v-2l-2-2z"/>
+              </svg>
+            </div>
+            <div class="min-w-0">
+              <p class="text-sm font-semibold text-gray-700 dark:text-gray-300">{{ $highlights_empty }}</p>
+              {{ with $highlights_hint }}
+              <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{{ . }}</p>
+              {{ end }}
+            </div>
+          </div>
+        {{ end }}
+      </div>
+
+      {{/* 2. Recent Posts (immediately visible right beneath Highlight Works) */}}
+      {{ if $recent_enabled }}
+      {{ $archive := index $recent_cfg "archive" }}
+      {{ if not (reflect.IsMap $archive) }}{{ $archive = dict }}{{ end }}
+      {{ $archive_link := "" }}
+      {{ with index $archive "link" }}{{ $archive_link = strings.TrimSpace (printf "%v" .) }}{{ end }}
+      {{ if and (not $archive_link) $recent_res.archive_page }}
+        {{ $archive_link = $recent_res.archive_page.RelPermalink }}
+      {{ end }}
+      {{ $archive_text := "" }}
+      {{ with index $archive "text" }}{{ $archive_text = strings.TrimSpace (printf "%v" .) }}{{ end }}
+      {{ if not $archive_text }}
+        {{ $archive_text = i18n "more_posts" | default "View all" }}
+      {{ end }}
+      {{ $show_archive := gt $recent_res.total $recent_res.count }}
+      {{ if isset $archive "enable" }}
+        {{ $show_archive = partial "functions/coerce_bool" (dict "value" (index $archive "enable") "default" $show_archive) }}
+      {{ end }}
+
+      <div id="recent-posts" class="space-y-4">
+        <div class="flex items-center justify-between gap-3">
+          <div class="flex items-center gap-2.5 min-w-0">
+            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-100 dark:bg-primary-900/50 text-primary-600 dark:text-primary-400 flex items-center justify-center">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z"/>
+              </svg>
+            </div>
+            <h2 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white tracking-tight truncate">
+              {{ $recent_title | emojify | $page.RenderString }}
+            </h2>
+          </div>
+
+          {{ if $archive_link }}
+          <a href="{{ $archive_link | relLangURL }}" class="inline-flex items-center gap-1 text-sm font-medium text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 whitespace-nowrap flex-shrink-0 group/all">
+            <span>{{ $archive_text }}</span>
+            <svg class="w-4 h-4 transition-transform group-hover/all:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0-4 4m4-4H3"/>
+            </svg>
+          </a>
+          {{ end }}
+        </div>
+
+        {{ if gt (len $recent_items) 0 }}
+        <div class="grid grid-cols-1 {{ if eq $recent_cols 1 }}md:grid-cols-1{{ else if eq $recent_cols 3 }}md:grid-cols-2 xl:grid-cols-3{{ else }}md:grid-cols-2{{ end }} gap-4">
+          {{ range $index, $item := $recent_items }}
+            {{ partial "hbx/blocks/profile-highlight/card.html" (dict "item" $item "index" $index "pinned" false "spotlight" false "show_image" $recent_show_image) }}
+          {{ end }}
+        </div>
+        {{ end }}
+
+        {{ if and $show_archive $archive_link }}
+        <div class="pt-3 flex justify-center">
+          <a href="{{ $archive_link | relLangURL }}"
+             class="inline-flex items-center gap-2 rounded-xl border border-gray-300/80 dark:border-gray-700 bg-white/80 dark:bg-gray-800/80 px-5 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700/80 hover:border-primary-400 dark:hover:border-primary-500 transition-all shadow-sm">
+            <span>{{ $archive_text }}</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0-4 4m4-4H3"/>
+            </svg>
+          </a>
+        </div>
+        {{ end }}
+      </div>
+      {{ end }}
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,177 @@
+{{/* Compact article / highlight work card for profile-highlight block */}}
+{{ $item := .item }}
+{{ $index := .index | default 0 }}
+{{ $pinned := .pinned | default false }}
+{{ $spotlight := .spotlight | default false }}
+{{ $show_image := true }}
+{{ if isset . "show_image" }}
+  {{ $show_image = .show_image }}
+{{ end }}
+{{ $fill_image := .fill_image | default true }}
+{{ $showDate := .show_date | default true }}
+{{ $showReadTime := .show_read_time | default true }}
+
+{{ $link := $item.RelPermalink }}
+{{ $target := "" }}
+{{ if $item.Params.external_link }}
+  {{ $link = $item.Params.external_link }}
+  {{ $target = "target=\"_blank\" rel=\"noopener\"" }}
+{{ end }}
+
+{{ $resource := false }}
+{{ if $show_image }}
+  {{ with partial "functions/get_featured_image.html" $item }}
+    {{ $resource = . }}
+  {{ end }}
+{{ end }}
+{{ $has_image := and $show_image (ne $resource false) }}
+{{ $use_spotlight_grid := and $spotlight $has_image }}
+
+{{ $anchor := "Center" }}
+{{ if and $item.Params.image (reflect.IsMap $item.Params.image) }}
+  {{ $anchor = $item.Params.image.focal_point | default "Center" }}
+{{ end }}
+
+{{ $uid := printf "%d" $index }}
+{{ with $item.File }}{{ $uid = .UniqueID }}{{ end }}
+
+{{ $summary := (partial "functions/get_summary" $item) | plainify | htmlUnescape | strings.TrimSpace }}
+{{ $readTime := $item.ReadingTime }}
+{{ if lt $readTime 1 }}{{ $readTime = 1 }}{{ end }}
+
+<article
+  class="group bg-white/85 dark:bg-gray-900/75 backdrop-blur-md rounded-2xl ring-1 {{ if $pinned }}ring-primary-500/30 dark:ring-primary-400/30{{ else }}ring-gray-900/10 dark:ring-white/10{{ end }} shadow-md overflow-hidden transition-all duration-300 ease-out hover:shadow-xl hover:shadow-primary-500/10 hover:-translate-y-1 focus-within:ring-2 focus-within:ring-primary-500/50 {{ if $use_spotlight_grid }}grid grid-cols-1 sm:grid-cols-12{{ else }}flex flex-col h-full{{ end }}"
+  aria-labelledby="card-title-{{ $uid }}">
+
+  {{/* Cover Image (only rendered when enabled AND the post actually has a featured image) */}}
+  {{ if $has_image }}
+  <div class="relative overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 {{ if $use_spotlight_grid }}aspect-[16/10] sm:aspect-auto sm:col-span-5 sm:min-h-[200px]{{ else }}aspect-[16/9]{{ end }}">
+    {{ if $pinned }}
+    <div class="absolute top-2.5 left-2.5 z-10 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-primary-600/90 text-white backdrop-blur-sm shadow-sm">
+      <svg class="w-3 h-3" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M16 12V4h1V2H7v2h1v8l-2 2v2h5.2v6h1.6v-6H18v-2l-2-2z"/>
+      </svg>
+      <span>Pinned</span>
+    </div>
+    {{ end }}
+
+    {{ with $resource }}
+      {{ $is_animated := partial "functions/is_animated_image.html" (dict "resource" . "item" $item) }}
+      {{ if strings.Contains .MediaType.SubType "svg" }}
+        <a href="{{ $link }}" {{ $target | safeHTMLAttr }} class="block w-full h-full">
+          <img class="w-full h-full transition-transform duration-500 ease-out group-hover:scale-105 {{ if $fill_image }}object-cover{{ else }}object-contain{{ end }}"
+               src="{{ .RelPermalink }}"
+               loading="lazy"
+               decoding="async"
+               alt="{{ $item.Title | plainify }} featured image">
+        </a>
+      {{ else if $is_animated }}
+        <a href="{{ $link }}" {{ $target | safeHTMLAttr }} class="block w-full h-full">
+          <img class="w-full h-full transition-transform duration-500 ease-out group-hover:scale-105 {{ if $fill_image }}object-cover{{ else }}object-contain{{ end }}"
+               src="{{ .RelPermalink }}"
+               loading="lazy"
+               decoding="async"
+               {{ if eq $index 0 }}fetchpriority="high"{{ end }}
+               style="position: absolute; height: 100%; width: 100%; inset: 0px; color: transparent;"
+               alt="{{ $item.Title | plainify }} featured image">
+        </a>
+      {{ else }}
+        {{ $processed := "" }}
+        {{ if $fill_image }}
+          {{ $processed = .Fill (printf "800x450 %s" $anchor) }}
+        {{ else }}
+          {{ $processed = .Fit (printf "800x450 %s" $anchor) }}
+        {{ end }}
+        {{ $responsive := partial "functions/process_responsive_image.html" (dict
+            "image" $processed
+            "mode" "responsive"
+            "sizes" (slice 400 600 800)
+            "formats" (slice "avif" "webp" "jpg")
+        ) }}
+        <a href="{{ $link }}" {{ $target | safeHTMLAttr }} class="block w-full h-full">
+          <img class="w-full h-full transition-transform duration-500 ease-out group-hover:scale-105 {{ if $fill_image }}object-cover{{ else }}object-contain{{ end }}"
+               srcset="{{ $responsive.srcset }}"
+               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 420px"
+               src="{{ $responsive.fallback.RelPermalink }}"
+               width="{{ $processed.Width }}"
+               height="{{ $processed.Height }}"
+               loading="lazy"
+               decoding="async"
+               {{ if eq $index 0 }}fetchpriority="high"{{ end }}
+               style="position: absolute; height: 100%; width: 100%; inset: 0px; color: transparent;"
+               alt="{{ $item.Title | plainify }} featured image">
+        </a>
+      {{ end }}
+    {{ end }}
+
+    <div class="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+  </div>
+  {{ end }}
+
+  {{/* Card Body */}}
+  <div class="p-4 sm:p-5 flex flex-col flex-1 justify-between gap-3 {{ if $use_spotlight_grid }}sm:col-span-7{{ end }}">
+    <div class="space-y-2">
+      {{ $has_tags := and $item.Params.tags (gt (len $item.Params.tags) 0) }}
+      {{ if or (and $pinned (not $has_image)) $has_tags }}
+      <div class="flex items-center flex-wrap gap-1.5">
+        {{ if and $pinned (not $has_image) }}
+        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-primary-600/90 text-white">
+          <svg class="w-3 h-3" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M16 12V4h1V2H7v2h1v8l-2 2v2h5.2v6h1.6v-6H18v-2l-2-2z"/>
+          </svg>
+          <span>Pinned</span>
+        </span>
+        {{ end }}
+        {{ if $has_tags }}
+          {{ range first 2 ($item.GetTerms "tags") }}
+          <a href="{{ .RelPermalink }}">
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-primary-100 text-primary-800 dark:bg-primary-900/40 dark:text-primary-300 hover:bg-primary-200 dark:hover:bg-primary-800/60 transition-colors">
+              {{ .Page.LinkTitle }}
+            </span>
+          </a>
+          {{ end }}
+        {{ end }}
+      </div>
+      {{ end }}
+
+      <h3 id="card-title-{{ $uid }}" class="{{ if $spotlight }}text-lg sm:text-xl{{ else }}text-base sm:text-lg{{ end }} font-bold tracking-tight text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200 leading-snug line-clamp-2">
+        <a href="{{ $link }}" {{ $target | safeHTMLAttr }} class="hover:underline">
+          {{ $item.Title }}
+          {{ if $item.Params.external_link }}
+            {{ partial "functions/get_icon" (dict "name" "arrow-top-right-on-square" "attributes" "class=\"inline-flex h-4 w-4 ml-1 align-text-top\"") }}
+          {{ end }}
+        </a>
+      </h3>
+
+      {{ if $summary }}
+      <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed {{ if $spotlight }}line-clamp-3{{ else }}line-clamp-2{{ end }}">
+        {{ $summary | truncate 140 }}
+      </p>
+      {{ end }}
+    </div>
+
+    {{/* Compact Meta & Link Footer */}}
+    <div class="pt-2.5 border-t border-gray-200/70 dark:border-gray-800/80 flex items-center justify-between gap-2 text-xs text-gray-500 dark:text-gray-400">
+      <div class="flex items-center gap-2 min-w-0 truncate">
+        {{ if $showDate }}
+        <time class="whitespace-nowrap" datetime="{{ $item.Date.Format "2006-01-02" }}">
+          {{ $item.Date | time.Format (site.Params.hugoblox.locale.date_format | default "2006-01-02") }}
+        </time>
+        {{ end }}
+        {{ if and $showDate $showReadTime }}
+        <span class="opacity-40">•</span>
+        {{ end }}
+        {{ if $showReadTime }}
+        <span class="whitespace-nowrap">{{ $readTime }} {{ i18n "minute_read" | default "min read" }}</span>
+        {{ end }}
+      </div>
+
+      <a href="{{ $link }}" {{ $target | safeHTMLAttr }} class="inline-flex items-center gap-1 text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-medium whitespace-nowrap flex-shrink-0 group/link">
+        <span>{{ i18n "read_more" | default "Read more" }}</span>
+        <svg class="w-3.5 h-3.5 transition-transform group-hover/link:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0-4 4m4-4H3"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</article>

@@ -1,0 +1,80 @@
+{{/* Query helper for profile-highlight block sections (highlights & recent posts) */}}
+{{ $cfg := . }}
+{{ if not (reflect.IsMap $cfg) }}{{ $cfg = dict }}{{ end }}
+
+{{ $filters := index $cfg "filters" }}
+{{ if not (reflect.IsMap $filters) }}{{ $filters = dict }}{{ end }}
+
+{{ $items_count := partial "functions/coerce_int" (dict "value" (index $cfg "count") "default" 6 "min" 0) }}
+{{ if eq $items_count 0 }}{{ $items_count = 65535 }}{{ end }}
+
+{{ $query := where site.Pages "Kind" "page" }}
+{{ $archive_page := "" }}
+
+{{/* Folders filter */}}
+{{ $folders_raw := index $filters "folders" }}
+{{ $folders := slice }}
+{{ if reflect.IsSlice $folders_raw }}
+  {{ range $folders_raw }}
+    {{ $folder := strings.TrimSpace (printf "%v" .) }}
+    {{ if $folder }}{{ $folders = $folders | append $folder }}{{ end }}
+  {{ end }}
+{{ else if eq (printf "%T" $folders_raw) "string" }}
+  {{ $folder := strings.TrimSpace $folders_raw }}
+  {{ if $folder }}{{ $folders = slice $folder }}{{ end }}
+{{ end }}
+{{ if gt (len $folders) 0 }}
+  {{ $query = where $query "Section" "in" $folders }}
+  {{ $main_folder := index $folders 0 }}
+  {{ $archive_page = site.GetPage "Section" $main_folder }}
+{{ end }}
+
+{{/* Tag filter */}}
+{{ $tag_raw := index $filters "tag" }}
+{{ if eq (printf "%T" $tag_raw) "string" }}
+  {{ $tag := strings.TrimSpace $tag_raw }}
+  {{ if $tag }}
+    {{ with site.GetPage (printf "tags/%s" (urlize $tag)) }}
+      {{ $archive_page = . }}
+      {{ $query = $query | intersect .Pages }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{/* Category filter */}}
+{{ $cat_raw := index $filters "category" }}
+{{ if eq (printf "%T" $cat_raw) "string" }}
+  {{ $cat := strings.TrimSpace $cat_raw }}
+  {{ if $cat }}
+    {{ with site.GetPage (printf "categories/%s" (urlize $cat)) }}
+      {{ $archive_page = . }}
+      {{ $query = $query | intersect .Pages }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{/* Featured filters */}}
+{{ $featured_only := partial "functions/coerce_bool" (dict "value" (index $filters "featured_only") "default" false) }}
+{{ if $featured_only }}
+  {{ $query = where $query "Params.featured" "==" true }}
+{{ end }}
+{{ $exclude_featured := partial "functions/coerce_bool" (dict "value" (index $filters "exclude_featured") "default" false) }}
+{{ if $exclude_featured }}
+  {{ $query = where $query "Params.featured" "!=" true }}
+{{ end }}
+
+{{ $total := len $query }}
+
+{{/* Sort */}}
+{{ $sort_by := "Date" }}
+{{ $sort_by_raw := index $cfg "sort_by" }}
+{{ if eq (printf "%T" $sort_by_raw) "string" }}
+  {{ $sort_by_raw = strings.TrimSpace $sort_by_raw }}
+  {{ if ne $sort_by_raw "" }}{{ $sort_by = $sort_by_raw }}{{ end }}
+{{ end }}
+{{ $sort_by = partial "functions/get_sort_by_parameter" $sort_by }}
+{{ $sort_asc := partial "functions/coerce_bool" (dict "value" (index $cfg "sort_ascending") "default" false) }}
+{{ $query = sort $query $sort_by (cond $sort_asc "asc" "desc") }}
+{{ $items := first $items_count $query }}
+
+{{ return (dict "items" $items "total" $total "count" $items_count "archive_page" $archive_page) }}

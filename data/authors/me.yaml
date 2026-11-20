@@ -5,34 +5,37 @@ name:
   display: Meltlis
   given: Meltlis
   family: ''
-  alternate: ''  # Example: 王伟
-  pronunciation: ''  # Example: Wáng Wěi
+  alternate: ''  
+  pronunciation: ''  
   pronouns: ''
 postnominals: []
 status:
-  icon: "🎮"
+  icon: ""
 role: 
 bio: |
-  我是 Meltlis，目前正在攻读硕士学位。 我的研究兴趣主要集中在计算机图形学、3D 重建、神经渲染以及计算机游戏领域。我热衷于探索这些领域的最新技术和发展，如果对我的工作感兴趣，欢迎与我交流。
+  I'm Meltlis. I'm currently pursuing a master's degree. My research interests primarily focus on computer graphics, differentiable rendering, inverse rendering, and video games.
 
 affiliations: []
 
 links:
-  - icon: at-symbol
+  - icon: custom/mail
     url: mailto:2143430667@qq.com
     label: Email
   - icon: brands/github
-    url: https://github.com/meltlis/meltlis.github.io
-  - icon: hero/play-circle
+    url: https://github.com/meltlis
+    label: GitHub
+  - icon: custom/bilibili
     url: https://space.bilibili.com/34963453?spm_id_from=333.1007.0.0
-  - icon: hero/computer-desktop
+    label: Bilibili
+  - icon: custom/steam
     url: https://steamcommunity.com/id/meltlisdesein
+    label: Steam
 
 interests:
   - Graphics
   - 3D Reconstruction
   - Neural Rendering
-  - Computer Games
+  - Video Games
 
 education:
   - degree: Graduate student
